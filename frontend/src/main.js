@@ -1,60 +1,144 @@
-import './style.css'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.js'
+import './style.css';
+import { db } from './data/mockData.js';
+import { DashboardView } from './views/DashboardView.js';
+import { VocabularyView } from './views/VocabularyView.js';
+import { ExercisesView } from './views/ExercisesView.js';
+import { ManageContentView } from './views/ManageContentView.js';
 
-document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+// SPA Router State
+let currentTab = 'dashboard';
+let currentFilterOptions = null;
 
-<div class="ticks"></div>
+const VIEWS = {
+  dashboard: DashboardView,
+  vocabulary: VocabularyView,
+  exercises: ExercisesView,
+  manage: ManageContentView
+};
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+function renderLayout() {
+  const appContainer = document.querySelector('#app');
+  const progress = db.getProgress();
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+  appContainer.innerHTML = `
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">LT</div>
+        <span class="logo-text">LT Kalba</span>
+      </div>
+      
+      <nav>
+        <ul class="nav-links">
+          <li class="nav-item">
+            <button class="nav-btn ${currentTab === 'dashboard' ? 'active' : ''}" data-target="dashboard">
+              <span class="nav-icon">📊</span>
+              <span>Mano Pažanga</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-btn ${currentTab === 'vocabulary' ? 'active' : ''}" data-target="vocabulary">
+              <span class="nav-icon">🎴</span>
+              <span>Kortelės</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-btn ${currentTab === 'exercises' ? 'active' : ''}" data-target="exercises">
+              <span class="nav-icon">📝</span>
+              <span>Pratimai</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-btn ${currentTab === 'manage' ? 'active' : ''}" data-target="manage">
+              <span class="nav-icon">✍️</span>
+              <span>Redigir</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="streak-badge">
+          <span class="streak-flame">🔥</span>
+          <div>
+            <div style="font-weight: 700; color: white;">Ofensiva</div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">${progress.streak || 0} dias seguidos</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content" id="main-view-area">
+      <!-- Active view will be rendered here -->
+    </main>
+  `;
 
-setupCounter(document.querySelector('#counter'))
+  // Bind Sidebar Navigation Click Events
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      navigate(target);
+    });
+  });
+
+  // Render the initial active view
+  renderActiveView();
+}
+
+function renderActiveView() {
+  const viewArea = document.querySelector('#main-view-area');
+  const activeView = VIEWS[currentTab];
+  
+  if (activeView) {
+    // 1. Render the HTML string from the view
+    viewArea.innerHTML = activeView.render(currentFilterOptions);
+    
+    // 2. Clear filter option once read to prevent sticky filters on tab swaps
+    currentFilterOptions = null;
+    
+    // 3. Set up listeners and interactivity
+    activeView.setup(navigate, forceRenderActiveView);
+  }
+}
+
+// Navigation Helper
+function navigate(tabName, options = null) {
+  if (VIEWS[tabName]) {
+    currentTab = tabName;
+    currentFilterOptions = options;
+    
+    // Update active state in Sidebar UI
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      if (btn.dataset.target === tabName) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+    
+    renderActiveView();
+  }
+}
+
+// Refresh callback for active view redraws (like clicking Next Card)
+function forceRenderActiveView() {
+  renderActiveView();
+  
+  // Also refresh sidebar progress streak just in case
+  const progress = db.getProgress();
+  const flameText = document.querySelector('.streak-badge div div:last-child');
+  if (flameText) {
+    flameText.textContent = `${progress.streak || 0} dias seguidos`;
+  }
+}
+
+// Initialize SPA
+document.addEventListener('DOMContentLoaded', () => {
+  renderLayout();
+});
+
+// For situations where DOMContentLoaded already fired (Hot Module Replacement)
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+  renderLayout();
+}
