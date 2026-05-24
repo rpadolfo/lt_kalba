@@ -1,6 +1,7 @@
 import './style.css';
 import { db } from './data/mockData.js';
 import { DashboardView } from './views/DashboardView.js';
+import { LessonsView } from './views/LessonsView.js';
 import { VocabularyView } from './views/VocabularyView.js';
 import { ExercisesView } from './views/ExercisesView.js';
 import { ManageContentView } from './views/ManageContentView.js';
@@ -11,6 +12,7 @@ let currentFilterOptions = null;
 
 const VIEWS = {
   dashboard: DashboardView,
+  lessons: LessonsView,
   vocabulary: VocabularyView,
   exercises: ExercisesView,
   manage: ManageContentView
@@ -34,6 +36,12 @@ function renderLayout() {
             <button class="nav-btn ${currentTab === 'dashboard' ? 'active' : ''}" data-target="dashboard">
               <span class="nav-icon">📊</span>
               <span>Mano Pažanga</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-btn ${currentTab === 'lessons' ? 'active' : ''}" data-target="lessons">
+              <span class="nav-icon">📖</span>
+              <span>Lições</span>
             </button>
           </li>
           <li class="nav-item">

@@ -1093,3 +1093,57 @@ p.view-subtitle {
     grid-template-columns: 1fr;
   }
 }
+
+/* Grammar Article Reader Content Styling */
+.grammar-article-content h3 {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  color: white;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.5rem;
+}
+
+.grammar-article-content h4 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: white;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.grammar-article-content p {
+  color: var(--text-secondary);
+  font-size: 1.025rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.grammar-article-content ul, .grammar-article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  color: var(--text-secondary);
+}
+
+.grammar-article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.grammar-article-content table {
+  background-color: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.grammar-article-content th {
+  font-family: var(--font-sans);
+  background-color: rgba(255, 255, 255, 0.03);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
