@@ -219,8 +219,8 @@ export const LESSONS = [
   {
     id: "lesson-4",
     moduleId: 3,
-    title: "O Caso Genitivo (Kilm优秀ninkas)",
-    badge: "Casos • A2",
+    title: "O Caso Genitivo (Kilmės)",
+    badge: "Casos • A1",
     description: "Aprenda a expressar posse (de quem?) e domine a regra de ouro do lituano: o uso obrigatório do Genitivo para negações.",
     content: `
       <h3>O Caso Genitivo</h3>
