@@ -2,8 +2,10 @@ import './style.css';
 import { db } from './data/mockData.js';
 import { DashboardView } from './views/DashboardView.js';
 import { LessonsView } from './views/LessonsView.js';
+import { DialoguesView } from './views/DialoguesView.js';
 import { VocabularyView } from './views/VocabularyView.js';
 import { ExercisesView } from './views/ExercisesView.js';
+import { ReferenceView } from './views/ReferenceView.js';
 import { ManageContentView } from './views/ManageContentView.js';
 
 // SPA Router State
@@ -13,8 +15,10 @@ let currentFilterOptions = null;
 const VIEWS = {
   dashboard: DashboardView,
   lessons: LessonsView,
+  dialogues: DialoguesView,
   vocabulary: VocabularyView,
   exercises: ExercisesView,
+  reference: ReferenceView,
   manage: ManageContentView
 };
 
@@ -45,6 +49,12 @@ function renderLayout() {
             </button>
           </li>
           <li class="nav-item">
+            <button class="nav-btn ${currentTab === 'dialogues' ? 'active' : ''}" data-target="dialogues">
+              <span class="nav-icon">💬</span>
+              <span>Pokalbiai</span>
+            </button>
+          </li>
+          <li class="nav-item">
             <button class="nav-btn ${currentTab === 'vocabulary' ? 'active' : ''}" data-target="vocabulary">
               <span class="nav-icon">🎴</span>
               <span>Kortelės</span>
@@ -54,6 +64,12 @@ function renderLayout() {
             <button class="nav-btn ${currentTab === 'exercises' ? 'active' : ''}" data-target="exercises">
               <span class="nav-icon">📝</span>
               <span>Pratimai</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-btn ${currentTab === 'reference' ? 'active' : ''}" data-target="reference">
+              <span class="nav-icon">📚</span>
+              <span>Žinynas</span>
             </button>
           </li>
           <li class="nav-item">

@@ -677,14 +677,14 @@ p.view-subtitle {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 2.5rem;
+  padding: 1.5rem;
   max-width: 750px;
   margin: 0 auto;
   box-shadow: var(--shadow-premium);
 }
 
 .exercise-question-box {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .exercise-prompt {
@@ -918,7 +918,7 @@ p.view-subtitle {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: auto;
   box-shadow: var(--shadow-premium);
 }
 
@@ -1004,6 +1004,7 @@ p.view-subtitle {
 }
 
 .form-control {
+  width: 100%;
   padding: 0.65rem 0.85rem;
   background-color: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border-color);
@@ -1073,6 +1074,12 @@ p.view-subtitle {
     overflow-x: auto;
     gap: 0.5rem;
     padding-bottom: 0.5rem;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .nav-links::-webkit-scrollbar {
+    display: none;
   }
   
   .nav-btn {
@@ -1091,6 +1098,86 @@ p.view-subtitle {
   
   .admin-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 65px;
+    padding: 0 0.25rem;
+    background-color: var(--bg-sidebar);
+    border-top: 1px solid var(--border-color);
+    border-bottom: none;
+    z-index: 1000;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .logo-container {
+    display: none;
+  }
+  
+  .nav-links {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .nav-links::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .nav-item {
+    width: auto;
+  }
+  
+  .nav-btn {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 4px 8px;
+    font-size: 0.65rem;
+    border-radius: 8px;
+    background: transparent;
+    box-shadow: none !important;
+  }
+  
+  .nav-btn .nav-icon {
+    font-size: 1.25rem;
+  }
+  
+  .nav-btn span:last-child {
+    display: none;
+  }
+  
+  .main-content {
+    width: 100%;
+    padding: 1.5rem 1rem 80px 1rem !important; /* Bottom padding so content is not obscured by bottom bar */
+  }
+
+  /* Reduce paddings to prevent cramped content on mobile (Samsung S26, etc) */
+  .exercise-question-box {
+    padding: 1.5rem !important;
+  }
+  
+  .stat-card {
+    padding: 1.25rem !important;
+  }
+  
+  .progress-section {
+    padding: 1.5rem !important;
   }
 }
 
@@ -1146,4 +1233,68 @@ p.view-subtitle {
   font-size: 0.8rem;
   letter-spacing: 0.05em;
   color: var(--text-secondary);
+}
+
+/* UX/UI Scroll Reduction Additions */
+
+/* Horizontal Scroll Container */
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.25rem;
+  padding-bottom: 1.5rem;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.horizontal-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+.horizontal-scroll > * {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  width: 280px; /* Base width for cards in horizontal scroll */
+}
+
+/* Dashboard Tabs */
+.dashboard-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.dashboard-tabs::-webkit-scrollbar {
+  display: none;
+}
+.dashboard-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+.dashboard-tab-btn:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+.dashboard-tab-btn.active {
+  color: var(--primary-hover);
+  background-color: var(--primary-glow);
+}
+.dashboard-tab-content {
+  display: none;
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dashboard-tab-content.active {
+  display: block;
 }

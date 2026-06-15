@@ -94,7 +94,7 @@ export const VocabularyView = {
           </div>
 
           <!-- SRS Buttons Group (Visible when card is flipped) -->
-          <div class="srs-buttons-container" id="srs-actions" style="display: none;">
+          <div class="srs-buttons-container" id="srs-actions" style="visibility: hidden; opacity: 0; transition: opacity 0.3s; height: 75px;">
             <button class="srs-btn srs-btn-hard" data-rating="hard">
               <span>Difícil</span>
               <span class="srs-btn-sub">Rever logo</span>
@@ -144,7 +144,8 @@ export const VocabularyView = {
       card.classList.toggle('flipped');
       
       const isFlipped = card.classList.contains('flipped');
-      srsActions.style.display = isFlipped ? 'flex' : 'none';
+      srsActions.style.visibility = isFlipped ? 'visible' : 'hidden';
+      srsActions.style.opacity = isFlipped ? '1' : '0';
       
       // Auto-hide toast when flipping card back/forth
       toast.style.opacity = 0;
@@ -171,7 +172,8 @@ export const VocabularyView = {
           // Animate and switch to next card after a brief delay
           setTimeout(() => {
             card.classList.remove('flipped');
-            srsActions.style.display = 'none';
+            srsActions.style.visibility = 'hidden';
+            srsActions.style.opacity = '0';
             toast.style.opacity = 0;
             toast.style.transform = 'translateY(10px)';
             

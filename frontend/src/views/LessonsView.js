@@ -20,7 +20,7 @@ export const LessonsView = {
         <h1 class="view-title">Gramatikos Pamokos (Lições)</h1>
         <p class="view-subtitle">Aprenda a estrutura gramatical do lituano de forma resumida e simplificada antes de praticar.</p>
 
-        <div class="lessons-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+        <div class="lessons-grid horizontal-scroll" style="gap: 1.5rem;">
           ${LESSONS.map(lesson => `
             <div class="stat-card" style="--gradient: linear-gradient(to right, #8b5cf6, #ec4899); justify-content: space-between; min-height: 250px;">
               <div>
