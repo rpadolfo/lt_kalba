@@ -84,8 +84,7 @@ export const ManageContentView = {
         <table class="manager-table">
           <thead>
             <tr>
-              <th>Verbo</th>
-              <th>Tradução</th>
+              <th>Verbo (Clique para traduzir)</th>
               <th>Conjugações (aš, tu, jis, mes, jūs, jie)</th>
               <th>Mód.</th>
               <th>Ações</th>
@@ -93,11 +92,10 @@ export const ManageContentView = {
           </thead>
           <tbody>
             ${filteredConj.length === 0 ? `
-              <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Nenhum verbo conjugado encontrado.</td></tr>
+              <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Nenhum verbo conjugado encontrado.</td></tr>
             ` : filteredConj.map(item => `
               <tr>
-                <td style="font-weight: 600; color: white; font-size: 1.05rem;">${item.verb}</td>
-                <td>${item.translation}</td>
+                <td style="font-weight: 600; color: white; font-size: 1.05rem;"><span class="clickable-word" data-word="${item.verb}" data-translation="${item.translation}" data-type="verbo">${item.verb}</span></td>
                 <td>
                   <div style="font-size: 0.8rem; color: var(--text-secondary); display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem; font-family: var(--font-mono);">
                     <span><b>aš:</b> ${item.forms.as}</span>
@@ -243,7 +241,7 @@ export const ManageContentView = {
 
         <div class="admin-grid">
           <!-- Left: Content Table -->
-          <div class="table-wrapper">
+          <div class="table-wrapper" style="max-height: 500px; overflow-y: auto;">
             ${mainTableHtml}
           </div>
 
@@ -260,6 +258,103 @@ export const ManageContentView = {
           </div>
         </div>
       </div>
+      
+      <!-- Single reusable tooltip DOM structure -->
+      <div id="word-analyzer-tooltip" class="morph-tooltip">
+        <div class="tooltip-header">
+          <span class="tooltip-word" id="tooltip-title">Vilniuje</span>
+        </div>
+        <div id="tooltip-body">
+          <div class="tooltip-row">
+            <div class="tooltip-label">Lema (Infinitivo)</div>
+            <div class="tooltip-value" id="tooltip-lemma">Vilnius</div>
+          </div>
+          <div class="tooltip-row">
+            <div class="tooltip-label">Tempo / Caso</div>
+            <div class="tooltip-value" id="tooltip-case"><span class="tooltip-badge">Locativo (Kur?)</span></div>
+          </div>
+          <div class="tooltip-row">
+            <div class="tooltip-label">Classe</div>
+            <div class="tooltip-value" id="tooltip-type">Substantivo Masculino (M)</div>
+          </div>
+          <div class="tooltip-row" style="margin-bottom: 0;">
+            <div class="tooltip-label">Tradução</div>
+            <div class="tooltip-value" id="tooltip-translation" style="color: var(--success);">Vilnius (capital)</div>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        /* Tooltip and Clickable word */
+        .clickable-word {
+          cursor: pointer;
+          border-bottom: 1px dashed rgba(255, 255, 255, 0.35);
+          display: inline-block;
+          transition: var(--transition-fast);
+        }
+        .clickable-word:hover {
+          color: var(--primary-hover);
+          border-bottom-color: var(--primary-hover);
+          background-color: rgba(139, 92, 246, 0.08);
+          border-radius: 3px;
+        }
+        .morph-tooltip {
+          position: absolute;
+          z-index: 1000;
+          background: rgba(15, 23, 42, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 1.25rem;
+          border-radius: 14px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+          max-width: 280px;
+          color: white;
+          font-size: 0.9rem;
+          animation: tooltipFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          display: none;
+        }
+        @keyframes tooltipFadeIn {
+          from { opacity: 0; transform: scale(0.95) translateY(5px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .tooltip-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.75rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 0.5rem;
+        }
+        .tooltip-word {
+          font-weight: 700;
+          color: var(--primary-hover);
+          font-size: 1.15rem;
+        }
+        .tooltip-row {
+          margin-bottom: 0.5rem;
+        }
+        .tooltip-label {
+          color: var(--text-secondary);
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+        .tooltip-value {
+          font-weight: 500;
+          color: white;
+        }
+        .tooltip-badge {
+          background-color: var(--primary-glow);
+          color: var(--primary-hover);
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          display: inline-block;
+          margin-top: 2px;
+        }
+      </style>
     `;
   },
 
@@ -450,6 +545,41 @@ export const ManageContentView = {
         forceRenderCallback();
       });
     }
+
+    // 7. Clickable word tooltip analyzer trigger
+    const clickableWords = document.querySelectorAll('.clickable-word');
+    const tooltip = document.getElementById('word-analyzer-tooltip');
+    
+    if (tooltip) {
+      document.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('clickable-word') && !tooltip.contains(e.target)) {
+          tooltip.style.display = 'none';
+        }
+      });
+    }
+
+    clickableWords.forEach(wordSpan => {
+      wordSpan.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const word = wordSpan.dataset.word;
+        const translation = wordSpan.dataset.translation || "Tradução não definida";
+        const type = wordSpan.dataset.type || "N/A";
+        
+        const rect = wordSpan.getBoundingClientRect();
+        const tooltipX = rect.left + window.scrollX;
+        const tooltipY = rect.bottom + window.scrollY + 8;
+        
+        tooltip.style.left = `${tooltipX}px`;
+        tooltip.style.top = `${tooltipY}px`;
+        tooltip.style.display = 'block';
+        
+        document.getElementById('tooltip-title').textContent = word;
+        document.getElementById('tooltip-lemma').textContent = word;
+        document.getElementById('tooltip-case').innerHTML = `<span class="tooltip-badge" style="background-color: rgba(139, 92, 246, 0.2); color: var(--primary-hover);">Infinitivo</span>`;
+        document.getElementById('tooltip-type').textContent = type;
+        document.getElementById('tooltip-translation').textContent = translation;
+      });
+    });
   },
   
   clearForm() {

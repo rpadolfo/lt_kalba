@@ -91,8 +91,200 @@ const INITIAL_VOCABULARY = [
     stressed: "Dr<span class=\"stressed\">au</span>gas",
     translation: "Amigo",
     type: "substantivo (M)",
-    example: "Mano dr<span class=\"stressed\">au</span>gas yra lituvis.",
+    example: "Mano dr<span class=\"stressed\">au</span>gas yra lietuvis.",
     exampleTranslation: "Meu amigo é lituano.",
+    module: 3,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-9",
+    word: "Airija",
+    stressed: "<span class=\"stressed\">A</span>irija",
+    translation: "Irlanda",
+    type: "substantivo (F)",
+    example: "Mano sesuo gyvena <span class=\"stressed\">A</span>irijoje.",
+    exampleTranslation: "Minha irmã mora na Irlanda.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-10",
+    word: "Anglija",
+    stressed: "<span class=\"stressed\">A</span>nglija",
+    translation: "Inglaterra",
+    type: "substantivo (F)",
+    example: "Ar tu esi iš <span class=\"stressed\">A</span>nglijos?",
+    exampleTranslation: "Você é da Inglaterra?",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-11",
+    word: "Vokietija",
+    stressed: "Vokiet<span class=\"stressed\">i</span>ja",
+    translation: "Alemanha",
+    type: "substantivo (F)",
+    example: "Vokiet<span class=\"stressed\">i</span>ja yra Europoje.",
+    exampleTranslation: "A Alemanha fica na Europa.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-12",
+    word: "Lenkija",
+    stressed: "L<span class=\"stressed\">e</span>nkija",
+    translation: "Polônia",
+    type: "substantivo (F)",
+    example: "L<span class=\"stressed\">e</span>nkija yra šalia Lietuvos.",
+    exampleTranslation: "A Polônia fica perto da Lituânia.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-13",
+    word: "Rusija",
+    stressed: "R<span class=\"stressed\">u</span>sija",
+    translation: "Rússia",
+    type: "substantivo (F)",
+    example: "R<span class=\"stressed\">u</span>sija yra muito didelė šalis.",
+    exampleTranslation: "A Rússia é um país muito grande.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-14",
+    word: "Ryga",
+    stressed: "Ryg<span class=\"stressed\">à</span>",
+    translation: "Riga",
+    type: "substantivo (F)",
+    example: "Ryg<span class=\"stressed\">à</span> yra Latvijos sostinė.",
+    exampleTranslation: "Riga é a capital da Letônia.",
+    module: 2,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-15",
+    word: "Talinas",
+    stressed: "T<span class=\"stressed\">a</span>linas",
+    translation: "Tallinn",
+    type: "substantivo (M)",
+    example: "T<span class=\"stressed\">a</span>linas yra Estijos sostinė.",
+    exampleTranslation: "Tallinn é a capital da Estônia.",
+    module: 2,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-16",
+    word: "Berlynas",
+    stressed: "Berl<span class=\"stressed\">y</span>nas",
+    translation: "Berlim",
+    type: "substantivo (M)",
+    example: "Mes važiuojame į Berl<span class=\"stressed\">y</span>ną.",
+    exampleTranslation: "Nós estamos indo para Berlim.",
+    module: 2,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-17",
+    word: "Varšuva",
+    stressed: "Varšuv<span class=\"stressed\">à</span>",
+    translation: "Varsóvia",
+    type: "substantivo (F)",
+    example: "Varšuv<span class=\"stressed\">à</span> yra didelis miestas.",
+    exampleTranslation: "Varsóvia é uma cidade grande.",
+    module: 2,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-18",
+    word: "italas",
+    stressed: "it<span class=\"stressed\">a</span>las",
+    translation: "italiano (homem)",
+    type: "substantivo (M)",
+    example: "Mano draugas yra it<span class=\"stressed\">a</span>las.",
+    exampleTranslation: "Meu amigo é italiano.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-19",
+    word: "italė",
+    stressed: "it<span class=\"stressed\">a</span>lė",
+    translation: "italiana (mulher)",
+    type: "substantivo (F)",
+    example: "Ši moteris yra it<span class=\"stressed\">a</span>lė.",
+    exampleTranslation: "Esta mulher é italiana.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-20",
+    word: "mokinys",
+    stressed: "mokin<span class=\"stressed\">ỹ</span>s",
+    translation: "aluno / estudante (homem)",
+    type: "substantivo (M)",
+    example: "Šis mokin<span class=\"stressed\">ỹ</span>s yra labai protingas.",
+    exampleTranslation: "Este aluno é muito inteligente.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-21",
+    word: "mokinė",
+    stressed: "mokin<span class=\"stressed\">ė̃</span>",
+    translation: "aluna / estudante (mulher)",
+    type: "substantivo (F)",
+    example: "Mano draugė yra mokin<span class=\"stressed\">ė̃</span>.",
+    exampleTranslation: "Minha amiga é estudante.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-22",
+    word: "vyras",
+    stressed: "v<span class=\"stressed\">ỹ</span>ras",
+    translation: "homem / marido",
+    type: "substantivo (M)",
+    example: "Tas v<span class=\"stressed\">ỹ</span>ras dirba Vilniuje.",
+    exampleTranslation: "Aquele homem trabalha em Vilnius.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-23",
+    word: "moteris",
+    stressed: "m<span class=\"stressed\">o</span>teris",
+    translation: "mulher",
+    type: "substantivo (F)",
+    example: "Moteris geria kavą.",
+    exampleTranslation: "A mulher está bebendo café.",
+    module: 1,
+    srsStage: 0,
+    nextReview: Date.now()
+  },
+  {
+    id: "vocab-24",
+    word: "draugė",
+    stressed: "draug<span class=\"stressed\">ė̃</span>",
+    translation: "amiga",
+    type: "substantivo (F)",
+    example: "Mano draug<span class=\"stressed\">ė̃</span> gyvena Lietuvoje.",
+    exampleTranslation: "Minha amiga mora na Lituânia.",
     module: 3,
     srsStage: 0,
     nextReview: Date.now()
@@ -155,6 +347,62 @@ const INITIAL_CONJUGATIONS = [
       jus: "norite",
       jiejos: "nori"
     }
+  },
+  {
+    id: "conj-5",
+    verb: "dirbti",
+    translation: "trabalhar",
+    module: 5,
+    forms: {
+      as: "dirbu",
+      tu: "dirbi",
+      jisji: "dirba",
+      mes: "dirbame",
+      jus: "dirbate",
+      jiejos: "dirba"
+    }
+  },
+  {
+    id: "conj-6",
+    verb: "turėti",
+    translation: "ter / possuir",
+    module: 3,
+    forms: {
+      as: "turiu",
+      tu: "turi",
+      jisji: "turi",
+      mes: "turime",
+      jus: "turite",
+      jiejos: "turi"
+    }
+  },
+  {
+    id: "conj-7",
+    verb: "kalbėti",
+    translation: "falar",
+    module: 1,
+    forms: {
+      as: "kalbu",
+      tu: "kalbi",
+      jisji: "kalba",
+      mes: "kalbame",
+      jus: "kalbate",
+      jiejos: "kalba"
+    }
+  },
+  {
+    id: "conj-8",
+    verb: "suprasti",
+    translation: "entender",
+    module: 1,
+    forms: {
+      as: "suprantu",
+      tu: "supranti",
+      jisji: "supranta",
+      mes: "suprantame",
+      jus: "suprantate",
+      jiejos: "supranta"
+    }
   }
 ];
 
@@ -198,6 +446,36 @@ const INITIAL_EXERCISES = [
     gap: "nori",
     explanation: "A segunda pessoa do singular (tu) do verbo 'norėti' tem terminação em '-i', ficando 'nori'.",
     module: 4
+  },
+  {
+    id: "ex-7",
+    type: "gap-fill",
+    prompt: "Complete a frase do diálogo: Jonas pergunta para Maria onde ela mora.",
+    sentence: "Maria, kur tu [gap] dabar?",
+    translation: "Maria, onde você mora agora?",
+    gap: "gyveni",
+    explanation: "A segunda pessoa do presente do verbo 'gyventi' (morar) é 'gyveni'.",
+    module: 2
+  },
+  {
+    id: "ex-8",
+    type: "gap-fill",
+    prompt: "Caso Genitivo (Ko?) com Negação. Complete com o café declinado na negação:",
+    sentence: "Aš neturiu [gap] (kava).",
+    translation: "Eu não tenho café.",
+    gap: "kavos",
+    explanation: "Na negação (neturiu), o objeto direto vai para o Genitivo. Kava (Fem. sing. em -a) vira 'kavos'.",
+    module: 3
+  },
+  {
+    id: "ex-9",
+    type: "translation",
+    prompt: "Traduza o diálogo para o Lituano: 'Eu moro em Vilnius.'",
+    sentence: "Eu moro em Vilnius.",
+    translation: "Aš gyvenu Vilniuje.",
+    gap: "Aš gyvenu Vilniuje.",
+    explanation: "Aš (eu), gyvenu (moro), Vilniuje (Locativo de Vilnius).",
+    module: 2
   }
 ];
 
@@ -208,17 +486,23 @@ const STORAGE_KEYS = {
   PROGRESS: "lt_kalba_progress"
 };
 
-// Initialize helper
+// Initialize helper with smart merge to support app updates
 function initLocalStorage() {
-  if (!localStorage.getItem(STORAGE_KEYS.VOCABULARY)) {
+  const existingVocab = localStorage.getItem(STORAGE_KEYS.VOCABULARY);
+  if (!existingVocab || JSON.parse(existingVocab).length < INITIAL_VOCABULARY.length) {
     localStorage.setItem(STORAGE_KEYS.VOCABULARY, JSON.stringify(INITIAL_VOCABULARY));
   }
-  if (!localStorage.getItem(STORAGE_KEYS.CONJUGATIONS)) {
+  
+  const existingConj = localStorage.getItem(STORAGE_KEYS.CONJUGATIONS);
+  if (!existingConj || JSON.parse(existingConj).length < INITIAL_CONJUGATIONS.length) {
     localStorage.setItem(STORAGE_KEYS.CONJUGATIONS, JSON.stringify(INITIAL_CONJUGATIONS));
   }
-  if (!localStorage.getItem(STORAGE_KEYS.EXERCISES)) {
+  
+  const existingExercises = localStorage.getItem(STORAGE_KEYS.EXERCISES);
+  if (!existingExercises || JSON.parse(existingExercises).length < INITIAL_EXERCISES.length) {
     localStorage.setItem(STORAGE_KEYS.EXERCISES, JSON.stringify(INITIAL_EXERCISES));
   }
+  
   if (!localStorage.getItem(STORAGE_KEYS.PROGRESS)) {
     const initialProgress = {
       streak: 5, // starting with a nice mock streak of 5 days
@@ -314,7 +598,8 @@ export const db = {
 
   // Exercises API
   getExercises() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS.EXERCISES)) || [];
+    const all = JSON.parse(localStorage.getItem(STORAGE_KEYS.EXERCISES)) || [];
+    return all.filter(ex => ex.type !== "spelling");
   },
 
   // User Progress API
@@ -335,7 +620,6 @@ export const db = {
 
   // Spaced Repetition SRS Algorithm Logic
   processSRSRating(wordId, rating) {
-    // rating: 'hard' (0), 'good' (1), 'easy' (2)
     const vocab = this.getVocabulary();
     const index = vocab.findIndex(w => w.id === wordId);
     if (index === -1) return;
@@ -348,14 +632,13 @@ export const db = {
       newStage = Math.min(newStage + 1, 5);
     } else if (rating === 'hard') {
       newStage = Math.max(newStage - 1, 0);
-    } // rating === 'good' maintains stage or moves up slightly if 0
+    }
     
     if (rating === 'good' && newStage === 0) {
       newStage = 1;
     }
 
-    // Interval maps (in hours) based on SRS stage
-    const intervals = [1, 4, 24, 72, 168, 720]; // Stage 0: 1h, 1: 4h, 2: 24h, 3: 3d, 4: 7d, 5: 30d
+    const intervals = [1, 4, 24, 72, 168, 720];
     intervalHours = intervals[newStage] || 4;
 
     word.srsStage = newStage;
@@ -363,11 +646,9 @@ export const db = {
     
     this.saveVocabulary(vocab);
     
-    // Add XP as feedback
     let xpGained = rating === 'easy' ? 15 : rating === 'good' ? 10 : 5;
     this.addXP(xpGained);
 
-    // Update mastered words count
     const masteredCount = vocab.filter(w => w.srsStage >= 4).length;
     const progress = this.getProgress();
     progress.wordsMastered = masteredCount;
