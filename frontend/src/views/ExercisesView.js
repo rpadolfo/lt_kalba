@@ -1,4 +1,4 @@
-// Exercises View (Pratimai) supporting gap-fill, translation, and spelling (Paraidžiui)
+// Exercises View (Pratimai) supporting gap-fill and translation
 import { db } from '../data/mockData.js';
 
 export const ExercisesView = {
@@ -7,7 +7,6 @@ export const ExercisesView = {
   userAnswered: false,
   isCorrectAnswer: false,
   userTypedValue: "",
-  selectedSpellingTiles: [], // Stores selected tiles for spelling exercises
 
   render() {
     this.deck = db.getExercises();
@@ -50,48 +49,6 @@ export const ExercisesView = {
           <span>${parts[1] || ''}</span>
         </div>
       `;
-    } else if (currentEx.type === "spelling") {
-      // Spelling (Paraidžiui) layout
-      const letterNames = currentEx.gap.split(',').map(s => s.trim());
-      
-      // Let's generate a scrambled set of tiles containing correct letter names and some distractor letters
-      // To make it easy, we just supply the correct letter names of this word scrambled so the user can build the spelling
-      const scrambledTiles = [...letterNames].sort(() => Math.random() - 0.5);
-
-      exerciseHtml = `
-        <div style="text-align: center; margin-bottom: 1.5rem;">
-          <div style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Soletrando a palavra:</div>
-          <div style="font-size: 2.25rem; font-weight: 800; color: white; letter-spacing: 4px; font-family: var(--font-heading); margin-bottom: 1.5rem;">
-            ${currentEx.sentence}
-          </div>
-          
-          <div class="exercise-input-block" style="margin-bottom: 1rem;">
-            <input type="text" class="text-input-field" id="spelling-field" 
-              placeholder="Clique nas peças abaixo ou digite os nomes separados por vírgula..." autocomplete="off"
-              value="${this.userAnswered ? this.userTypedValue : this.selectedSpellingTiles.join(', ')}"
-              ${this.userAnswered ? 'disabled' : ''}
-              style="width: 100%; text-align: center;"
-            />
-          </div>
-
-          <!-- Interactive Clickable Tiles (Only when not answered) -->
-          ${!this.userAnswered ? `
-            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
-              <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Peças de Apoio (Clique para adicionar):</div>
-              <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.25rem;">
-                ${scrambledTiles.map((tileName, idx) => `
-                  <button class="spelling-tile-btn" data-tile-value="${tileName}" style="background-color: var(--bg-body); border: 1px solid var(--border-color); color: var(--primary-hover); font-weight: 600; padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: var(--transition-fast);">
-                    ${tileName}
-                  </button>
-                `).join('')}
-                <button id="btn-clear-spelling" style="background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--danger); font-weight: 600; padding: 6px 12px; border-radius: 8px; cursor: pointer;">
-                  Limpar ⌫
-                </button>
-              </div>
-            </div>
-          ` : ''}
-        </div>
-      `;
     } else {
       // Translation style
       exerciseHtml = `
@@ -110,20 +67,9 @@ export const ExercisesView = {
     }
 
     return `
-      <style>
-        .spelling-tile-btn:hover {
-          background-color: var(--primary-glow) !important;
-          border-color: var(--primary) !important;
-          transform: scale(1.05);
-        }
-        .spelling-tile-btn:active {
-          transform: scale(0.95);
-        }
-      </style>
-
       <div class="view exercises-view">
         <h1 class="view-title">Pratimai (Exercícios)</h1>
-        <p class="view-subtitle">Fixe a escrita, soletragem e regras de casos gramaticais.</p>
+        <p class="view-subtitle">Fixe a escrita e regras de casos gramaticais.</p>
 
         <div class="exercise-container" style="max-width: 650px; margin: 0 auto;">
           <div class="srs-info-bar">
@@ -137,11 +83,9 @@ export const ExercisesView = {
             </p>
             ${exerciseHtml}
             
-            ${currentEx.type !== "spelling" ? `
-              <p style="font-size: 0.95rem; color: var(--text-muted); font-style: italic; text-align: center; margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 1rem;">
-                Tradução de apoio: "${currentEx.translation}"
-              </p>
-            ` : ''}
+            <p style="font-size: 0.95rem; color: var(--text-muted); font-style: italic; text-align: center; margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 1rem;">
+              Tradução de apoio: "${currentEx.translation}"
+            </p>
           </div>
 
           <!-- Actions -->
@@ -191,34 +135,11 @@ export const ExercisesView = {
     
     const gapField = document.getElementById('gap-field');
     const transField = document.getElementById('translation-field');
-    const spellingField = document.getElementById('spelling-field');
 
     // Help panel toggle
     if (btnHelp && helpPanel) {
       btnHelp.addEventListener('click', () => {
         helpPanel.style.display = helpPanel.style.display === 'none' ? 'block' : 'none';
-      });
-    }
-
-    // Spelling tile click handlers
-    document.querySelectorAll('.spelling-tile-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const val = btn.dataset.tileValue;
-        this.selectedSpellingTiles.push(val);
-        
-        if (spellingField) {
-          spellingField.value = this.selectedSpellingTiles.join(', ');
-        }
-      });
-    });
-
-    const clearSpellingBtn = document.getElementById('btn-clear-spelling');
-    if (clearSpellingBtn) {
-      clearSpellingBtn.addEventListener('click', () => {
-        this.selectedSpellingTiles = [];
-        if (spellingField) {
-          spellingField.value = "";
-        }
       });
     }
 
@@ -230,8 +151,6 @@ export const ExercisesView = {
 
         if (currentEx.type === "gap-fill" && gapField) {
           userAnswer = gapField.value.trim();
-        } else if (currentEx.type === "spelling" && spellingField) {
-          userAnswer = spellingField.value.trim();
         } else if (transField) {
           userAnswer = transField.value.trim();
         }
@@ -264,7 +183,7 @@ export const ExercisesView = {
       });
 
       // Allow pressing 'Enter' in text fields to verify
-      const inputField = gapField || transField || spellingField;
+      const inputField = gapField || transField;
       if (inputField) {
         inputField.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') {
@@ -282,7 +201,6 @@ export const ExercisesView = {
         this.userAnswered = false;
         this.isCorrectAnswer = false;
         this.userTypedValue = "";
-        this.selectedSpellingTiles = [];
         
         this.currentExerciseIndex = (this.currentExerciseIndex + 1) % this.deck.length;
         forceRenderCallback();

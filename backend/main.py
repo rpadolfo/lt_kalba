@@ -103,7 +103,7 @@ def get_dialogues():
             "description": "Jonas e Maria se conhecem e conversam sobre suas nacionalidades e identidades.",
             "module": 1,
             "conversation": [
-                {"speaker": "Jonas", "avatar": "👨", "text": "Labas rytas! Mano vardas yra Jonas. Aš esu lituvis. O tu?"},
+                {"speaker": "Jonas", "avatar": "👨", "text": "Labas rytas! Mano vardas yra Jonas. Aš esu lietuvis. O tu?"},
                 {"speaker": "Maria", "avatar": "👩", "text": "Labas rytas! Mano vardas yra Maria. Aš esu iš Brazilijos, aš esu brazilė."},
                 {"speaker": "Jonas", "avatar": "👨", "text": "Malonu susipažinti, Maria! Sveika atvykusi į Lietuvą."},
                 {"speaker": "Maria", "avatar": "👩", "text": "Ačiū! Man irgi labai malonu."}
