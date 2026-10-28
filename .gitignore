@@ -22,3 +22,18 @@ env/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Agent Configuration, Internal Backlogs and Project Context Docs
+agents.md
+backlog.md
+project_memory.md
+instrucoes_agente.md
+implementation_plan.md
+estrutura_modulos.md
+projeto_lituano_export.md
+projeto_mvp.md
+*.md
+!README.md
+
+# Scratch scripts & Temporary files
+scratch/
