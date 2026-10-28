@@ -27,8 +27,33 @@ function renderLayout() {
   const progress = db.getProgress();
 
   appContainer.innerHTML = `
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
+    <!-- Top Mobile Header (visible only on <= 768px) -->
+    <header class="mobile-top-header">
+      <div class="mobile-header-brand">
+        <div class="logo-icon">LT</div>
+        <span class="logo-text">LT Kalba</span>
+      </div>
+      
+      <div class="mobile-header-actions">
+        <div class="mobile-streak-pill" title="Dias seguidos">
+          <span class="streak-flame">🔥</span>
+          <span class="streak-num">${progress.streak || 0}</span>
+        </div>
+
+        <button class="header-action-btn ${currentTab === 'reference' ? 'active' : ''}" data-target="reference" title="Žinynas (Guia de Referência)">
+          <span>📚</span>
+          <span class="header-btn-text">Žinynas</span>
+        </button>
+
+        <button class="header-action-btn ${currentTab === 'manage' ? 'active' : ''}" data-target="manage" title="Redigir / Gerenciar Conteúdo">
+          <span>✍️</span>
+          <span class="header-btn-text">Redigir</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Desktop Sidebar Navigation (hidden on mobile) -->
+    <aside class="sidebar desktop-sidebar">
       <div class="logo-container">
         <div class="logo-icon">LT</div>
         <span class="logo-text">LT Kalba</span>
@@ -39,7 +64,7 @@ function renderLayout() {
           <li class="nav-item">
             <button class="nav-btn ${currentTab === 'dashboard' ? 'active' : ''}" data-target="dashboard">
               <span class="nav-icon">📊</span>
-              <span>Mano Pažanga</span>
+              <span>Início</span>
             </button>
           </li>
           <li class="nav-item">
@@ -51,19 +76,19 @@ function renderLayout() {
           <li class="nav-item">
             <button class="nav-btn ${currentTab === 'dialogues' ? 'active' : ''}" data-target="dialogues">
               <span class="nav-icon">💬</span>
-              <span>Pokalbiai</span>
+              <span>Diálogos</span>
             </button>
           </li>
           <li class="nav-item">
             <button class="nav-btn ${currentTab === 'vocabulary' ? 'active' : ''}" data-target="vocabulary">
               <span class="nav-icon">🎴</span>
-              <span>Kortelės</span>
+              <span>Cards</span>
             </button>
           </li>
           <li class="nav-item">
             <button class="nav-btn ${currentTab === 'exercises' ? 'active' : ''}" data-target="exercises">
               <span class="nav-icon">📝</span>
-              <span>Pratimai</span>
+              <span>Treino</span>
             </button>
           </li>
           <li class="nav-item">
@@ -86,20 +111,44 @@ function renderLayout() {
           <span class="streak-flame">🔥</span>
           <div>
             <div style="font-weight: 700; color: white;">Ofensiva</div>
-            <div style="font-size: 0.85rem; color: var(--text-secondary);">${progress.streak || 0} dias seguidos</div>
+            <div class="streak-label" style="font-size: 0.85rem; color: var(--text-secondary);">${progress.streak || 0} dias seguidos</div>
           </div>
         </div>
       </div>
     </aside>
-    
+
     <!-- Main Content Area -->
     <main class="main-content" id="main-view-area">
       <!-- Active view will be rendered here -->
     </main>
+
+    <!-- Mobile Bottom Navigation Bar (5 core learning tabs in PT-BR) -->
+    <nav class="mobile-bottom-nav">
+      <button class="bottom-nav-btn ${currentTab === 'dashboard' ? 'active' : ''}" data-target="dashboard">
+        <span class="bottom-nav-icon">📊</span>
+        <span class="bottom-nav-label">Início</span>
+      </button>
+      <button class="bottom-nav-btn ${currentTab === 'lessons' ? 'active' : ''}" data-target="lessons">
+        <span class="bottom-nav-icon">📖</span>
+        <span class="bottom-nav-label">Lições</span>
+      </button>
+      <button class="bottom-nav-btn ${currentTab === 'dialogues' ? 'active' : ''}" data-target="dialogues">
+        <span class="bottom-nav-icon">💬</span>
+        <span class="bottom-nav-label">Diálogos</span>
+      </button>
+      <button class="bottom-nav-btn ${currentTab === 'vocabulary' ? 'active' : ''}" data-target="vocabulary">
+        <span class="bottom-nav-icon">🎴</span>
+        <span class="bottom-nav-label">Cards</span>
+      </button>
+      <button class="bottom-nav-btn ${currentTab === 'exercises' ? 'active' : ''}" data-target="exercises">
+        <span class="bottom-nav-icon">📝</span>
+        <span class="bottom-nav-label">Treino</span>
+      </button>
+    </nav>
   `;
 
-  // Bind Sidebar Navigation Click Events
-  document.querySelectorAll('.nav-btn').forEach(btn => {
+  // Bind All Navigation Click Events (Sidebar, Mobile Header, Bottom Nav)
+  document.querySelectorAll('[data-target]').forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.target;
       navigate(target);
@@ -115,13 +164,8 @@ function renderActiveView() {
   const activeView = VIEWS[currentTab];
   
   if (activeView) {
-    // 1. Render the HTML string from the view
     viewArea.innerHTML = activeView.render(currentFilterOptions);
-    
-    // 2. Clear filter option once read to prevent sticky filters on tab swaps
     currentFilterOptions = null;
-    
-    // 3. Set up listeners and interactivity
     activeView.setup(navigate, forceRenderActiveView);
   }
 }
@@ -132,14 +176,17 @@ function navigate(tabName, options = null) {
     currentTab = tabName;
     currentFilterOptions = options;
     
-    // Update active state in Sidebar UI
-    document.querySelectorAll('.nav-btn').forEach(btn => {
+    // Update active state across all buttons (Desktop sidebar, mobile header, mobile bottom nav)
+    document.querySelectorAll('[data-target]').forEach(btn => {
       if (btn.dataset.target === tabName) {
         btn.classList.add('active');
       } else {
         btn.classList.remove('active');
       }
     });
+    
+    // Scroll smoothly to top of main area
+    window.scrollTo({ top: 0, behavior: 'instant' });
     
     renderActiveView();
   }
@@ -149,11 +196,15 @@ function navigate(tabName, options = null) {
 function forceRenderActiveView() {
   renderActiveView();
   
-  // Also refresh sidebar progress streak just in case
+  // Refresh streak indicator in both sidebar and mobile header
   const progress = db.getProgress();
-  const flameText = document.querySelector('.streak-badge div div:last-child');
-  if (flameText) {
-    flameText.textContent = `${progress.streak || 0} dias seguidos`;
+  const streakText = document.querySelector('.streak-label');
+  if (streakText) {
+    streakText.textContent = `${progress.streak || 0} dias seguidos`;
+  }
+  const mobileStreakNum = document.querySelector('.streak-num');
+  if (mobileStreakNum) {
+    mobileStreakNum.textContent = `${progress.streak || 0}`;
   }
 }
 
@@ -162,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLayout();
 });
 
-// For situations where DOMContentLoaded already fired (Hot Module Replacement)
 if (document.readyState === 'interactive' || document.readyState === 'complete') {
   renderLayout();
 }

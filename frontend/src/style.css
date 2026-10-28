@@ -484,6 +484,181 @@ p.view-subtitle {
   box-shadow: 0 0 12px var(--primary-glow);
 }
 
+/* Mobile Layout Base Placeholders (hidden on desktop) */
+.mobile-top-header {
+  display: none;
+}
+.mobile-bottom-nav {
+  display: none;
+}
+
+/* Floating XP Toast Notification (Fixed Outside DOM Flow) */
+.xp-toast-floating {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+  background: rgba(16, 185, 129, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--success);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 3000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+  white-space: nowrap;
+}
+.xp-toast-floating.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Morphological Bottom Sheet Drawer */
+.bottom-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.bottom-sheet-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bottom-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+  z-index: 2001;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0.75rem 1.25rem 1.75rem;
+  color: white;
+}
+.bottom-sheet.open {
+  transform: translateY(0);
+}
+
+.bottom-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  margin: 0 auto 0.75rem;
+}
+
+.bottom-sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.6rem;
+}
+
+.bottom-sheet-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.bottom-sheet-word {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: white;
+  font-family: var(--font-heading);
+}
+
+.bottom-sheet-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.bottom-sheet-close-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+.bottom-sheet-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.sheet-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.sheet-info-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+.sheet-translation-card {
+  grid-column: 1 / -1;
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.sheet-label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.sheet-val {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: white;
+}
+
+.sheet-translation {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--success);
+}
+
 /* Flashcards UI styling (3D Flip Effect) */
 .flashcard-view-container {
   display: flex;
@@ -1102,82 +1277,270 @@ p.view-subtitle {
 }
 
 @media (max-width: 768px) {
-  .sidebar {
+  /* 1. Hide Desktop Sidebar */
+  .desktop-sidebar {
+    display: none !important;
+  }
+  
+  /* 2. Top Mobile Header */
+  .mobile-top-header {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 52px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 1rem;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+  }
+  
+  .mobile-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .mobile-header-brand .logo-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+  .mobile-header-brand .logo-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    color: white;
+  }
+  
+  .mobile-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .mobile-streak-pill {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    padding: 3px 8px;
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fbbf24;
+  }
+  
+  .header-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+  }
+  .header-action-btn.active {
+    color: var(--primary-hover);
+    background: var(--primary-glow);
+    border-color: var(--primary);
+  }
+
+  /* 3. Mobile Bottom Navigation (5 tabs with visible micro-labels) */
+  .mobile-bottom-nav {
+    display: flex !important;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100vw;
-    height: 65px;
-    padding: 0 0.25rem;
-    background-color: var(--bg-sidebar);
+    height: 60px;
+    background: rgba(15, 23, 42, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-top: 1px solid var(--border-color);
-    border-bottom: none;
     z-index: 1000;
-    justify-content: center;
-    flex-direction: row;
     align-items: center;
-  }
-  
-  .logo-container {
-    display: none;
-  }
-  
-  .nav-links {
-    width: 100%;
-    padding: 0;
-    display: flex;
     justify-content: space-around;
-    align-items: center;
-    overflow-x: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    padding: 0 0.25rem;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
   }
   
-  .nav-links::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .nav-item {
-    width: auto;
-  }
-  
-  .nav-btn {
+  .bottom-nav-btn {
+    flex: 1;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 2px;
-    padding: 4px 8px;
-    font-size: 0.65rem;
-    border-radius: 8px;
     background: transparent;
-    box-shadow: none !important;
+    border: none;
+    padding: 6px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: var(--transition-fast);
   }
   
-  .nav-btn .nav-icon {
-    font-size: 1.25rem;
+  .bottom-nav-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
   }
   
-  .nav-btn span:last-child {
-    display: none;
+  .bottom-nav-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    line-height: 1.1;
+    transition: color 0.2s ease;
+    letter-spacing: -0.01em;
   }
   
-  .main-content {
-    width: 100%;
-    padding: 1.5rem 1rem 80px 1rem !important; /* Bottom padding so content is not obscured by bottom bar */
+  .bottom-nav-btn.active .bottom-nav-icon {
+    transform: scale(1.12);
+  }
+  .bottom-nav-btn.active .bottom-nav-label {
+    color: var(--primary-hover);
+    font-weight: 700;
   }
 
-  /* Reduce paddings to prevent cramped content on mobile (Samsung S26, etc) */
-  .exercise-question-box {
-    padding: 1.5rem !important;
+  /* 4. Main Content Area Padding for Mobile */
+  .main-content {
+    width: 100%;
+    padding: 62px 0.85rem 74px 0.85rem !important;
+  }
+
+  /* 5. Flashcards Above the Fold on Galaxy S26 */
+  .card-outer {
+    height: 230px !important;
+    margin-bottom: 0.75rem !important;
   }
   
-  .stat-card {
+  .card-front, .card-back {
+    padding: 1.25rem 1rem !important;
+    border-radius: 16px !important;
+  }
+  
+  .word-term {
+    font-size: 1.95rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+  
+  .word-translation {
+    font-size: 1.55rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+  
+  .word-example {
+    font-size: 0.88rem !important;
+    max-width: 95% !important;
+    line-height: 1.35 !important;
+  }
+  
+  .word-example-translation {
+    font-size: 0.78rem !important;
+    margin-top: 2px !important;
+  }
+  
+  .flip-hint {
+    bottom: 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .srs-info-bar {
+    margin-bottom: 0.75rem !important;
+    font-size: 0.82rem !important;
+  }
+  
+  .srs-buttons-container {
+    height: auto !important;
+    gap: 0.5rem !important;
+  }
+  
+  .srs-btn {
+    padding: 0.65rem 0.35rem !important;
+    font-size: 0.85rem !important;
+    border-radius: 10px !important;
+  }
+  
+  .srs-btn-sub {
+    font-size: 0.68rem !important;
+    margin-top: 2px !important;
+  }
+  
+  .xp-toast-floating {
+    top: 58px;
+    font-size: 0.82rem;
+    padding: 0.45rem 1rem;
+    max-width: 90vw;
+  }
+
+  /* 6. Pinned Action Bar in Exercises */
+  .exercises-view {
+    padding-bottom: 75px !important;
+  }
+  
+  .exercise-question-box {
     padding: 1.25rem !important;
   }
   
+  .exercise-prompt {
+    font-size: 0.95rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .exercise-actions {
+    position: fixed !important;
+    bottom: 60px !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 !important;
+    padding: 0.65rem 1rem !important;
+    background: rgba(15, 23, 42, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-top: 1px solid var(--border-color) !important;
+    z-index: 990 !important;
+    display: flex !important;
+    gap: 0.75rem !important;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  .exercise-actions .action-btn {
+    flex: 1 !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 9px 12px !important;
+    font-size: 0.92rem !important;
+    border-radius: 8px !important;
+  }
+  
+  .exercise-translation-hint {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    margin-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.03);
+    padding-top: 0.75rem;
+  }
+  
+  .stat-card {
+    padding: 1rem !important;
+  }
+  
   .progress-section {
-    padding: 1.5rem !important;
+    padding: 1.25rem !important;
   }
 }
 

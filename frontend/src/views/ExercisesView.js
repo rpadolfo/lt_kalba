@@ -38,13 +38,13 @@ export const ExercisesView = {
     if (currentEx.type === "gap-fill") {
       const parts = currentEx.sentence.split("[gap]");
       exerciseHtml = `
-        <div class="exercise-interactive" style="font-size: 1.35rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+        <div class="exercise-interactive" style="font-size: 1.25rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
           <span>${parts[0]}</span>
           <input type="text" class="gap-input" id="gap-field" 
             placeholder="..." autocomplete="off" 
             value="${this.userAnswered ? this.userTypedValue : ''}"
             ${this.userAnswered ? 'disabled' : ''} 
-            style="width: 120px; text-align: center; border-bottom: 2px solid var(--primary); background: rgba(255,255,255,0.02); color: white; font-weight: 700; border-radius: 4px; padding: 4px 8px;"
+            style="width: 120px; text-align: center; border-bottom: 2px solid var(--primary); background: rgba(255,255,255,0.02); color: white; font-weight: 700; border-radius: 4px; padding: 6px 8px;"
           />
           <span>${parts[1] || ''}</span>
         </div>
@@ -52,7 +52,7 @@ export const ExercisesView = {
     } else {
       // Translation style
       exerciseHtml = `
-        <div class="exercise-interactive" style="font-size: 1.5rem; text-align: center; color: var(--text-secondary); margin-bottom: 1.5rem;">
+        <div class="exercise-interactive" style="font-size: 1.35rem; text-align: center; color: var(--text-secondary); margin-bottom: 1.25rem;">
           "${currentEx.sentence}"
         </div>
         <div class="exercise-input-block">
@@ -60,7 +60,7 @@ export const ExercisesView = {
             placeholder="Digite a tradução em Lituano..." autocomplete="off"
             value="${this.userAnswered ? this.userTypedValue : ''}"
             ${this.userAnswered ? 'disabled' : ''}
-            style="width: 100%;"
+            style="width: 100%; text-align: center; font-size: 1.1rem; padding: 10px;"
           />
         </div>
       `;
@@ -68,7 +68,7 @@ export const ExercisesView = {
 
     return `
       <div class="view exercises-view">
-        <h1 class="view-title">Pratimai (Exercícios)</h1>
+        <h1 class="view-title">Pratimai (Treino & Exercícios)</h1>
         <p class="view-subtitle">Fixe a escrita e regras de casos gramaticais.</p>
 
         <div class="exercise-container" style="max-width: 650px; margin: 0 auto;">
@@ -77,48 +77,48 @@ export const ExercisesView = {
             <span class="srs-counter">Exercício ${this.currentExerciseIndex + 1} de ${this.deck.length}</span>
           </div>
 
-          <div class="exercise-question-box" style="padding: 2.5rem; background-color: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-premium);">
-            <p class="exercise-prompt" style="font-size: 1.1rem; color: white; margin-bottom: 1.5rem; text-align: center; font-weight: 500;">
+          <div class="exercise-question-box">
+            <p class="exercise-prompt">
               ${currentEx.prompt}
             </p>
             ${exerciseHtml}
             
-            <p style="font-size: 0.95rem; color: var(--text-muted); font-style: italic; text-align: center; margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 1rem;">
+            <p class="exercise-translation-hint">
               Tradução de apoio: "${currentEx.translation}"
             </p>
           </div>
 
-          <!-- Actions -->
-          <div class="exercise-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
-            ${this.userAnswered ? `
-              <button class="action-btn action-btn-primary" id="btn-next-exercise" style="padding: 10px 24px;">Avançar ➡️</button>
-            ` : `
-              <button class="action-btn action-btn-secondary" id="btn-reveal-help" style="padding: 10px 20px;">Explicação 💡</button>
-              <button class="action-btn action-btn-primary" id="btn-verify-answer" style="padding: 10px 24px;">Verificar ✓</button>
-            `}
-          </div>
-
-          <!-- Feedback Panel -->
+          <!-- Feedback Panel (Immediately under question box) -->
           ${this.userAnswered ? `
-            <div class="feedback-box ${this.isCorrectAnswer ? 'correct' : 'incorrect'}" style="margin-top: 1.5rem; padding: 1.5rem; border-radius: 12px; border: 1px solid;">
-              <div class="feedback-header" style="font-weight: 700; font-size: 1.15rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between;">
+            <div class="feedback-box ${this.isCorrectAnswer ? 'correct' : 'incorrect'}">
+              <div class="feedback-header">
                 <span>${this.isCorrectAnswer ? '🎉 Teisingai! (Correto)' : '❌ Neteisingai (Incorreto)'}</span>
                 <span style="font-size: 0.9rem; font-weight: normal; opacity: 0.85;">+${this.isCorrectAnswer ? '20' : '5'} XP</span>
               </div>
-              <p class="feedback-msg" style="margin-bottom: 0.75rem; font-size: 1rem;">
-                Resposta correta: <code style="background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); color: white; font-weight: bold;">${currentEx.gap}</code>
+              <p class="feedback-msg">
+                Resposta correta: <code>${currentEx.gap}</code>
               </p>
-              <div class="feedback-explanation" style="font-size: 0.9rem; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem; opacity: 0.9;">
+              <div class="feedback-explanation">
                 <b>Explicação pedagógica:</b> ${currentEx.explanation}
               </div>
             </div>
           ` : ''}
 
           <!-- Live Help Explanation -->
-          <div id="quick-help-panel" style="display: none; background-color: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border-color); padding: 1.25rem; border-radius: 10px; margin-top: 1.5rem; animation: fadeIn 0.3s;">
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.45; margin: 0;">
+          <div id="quick-help-panel" style="display: none; background-color: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border-color); padding: 1rem; border-radius: 10px; margin-top: 1rem; animation: fadeIn 0.3s;">
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.45; margin: 0;">
               💡 <b>Dica de Estudo:</b> ${currentEx.explanation}
             </p>
+          </div>
+
+          <!-- Actions Bar (Fixed on mobile directly above bottom nav) -->
+          <div class="exercise-actions">
+            ${this.userAnswered ? `
+              <button class="action-btn action-btn-primary" id="btn-next-exercise" style="width: 100%;">Avançar ➡️</button>
+            ` : `
+              <button class="action-btn action-btn-secondary" id="btn-reveal-help">Explicação 💡</button>
+              <button class="action-btn action-btn-primary" id="btn-verify-answer">Verificar ✓</button>
+            `}
           </div>
         </div>
       </div>
@@ -158,11 +158,11 @@ export const ExercisesView = {
         this.userTypedValue = userAnswer;
         this.userAnswered = true;
 
-        // Clean answers to make evaluation smart: ignore punctuation, spaces, double spaces
+        // Clean answers to make evaluation smart: ignore punctuation, spaces
         const cleanStr = (str) => {
           return str.toLowerCase()
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"“”]/g, "") // remove punctuation
-            .replace(/\s+/g, "") // remove all spaces
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"“”'„–—]/g, "")
+            .replace(/\s+/g, "")
             .trim();
         };
 
@@ -190,7 +190,6 @@ export const ExercisesView = {
             btnVerify.click();
           }
         });
-        // Auto focus input
         inputField.focus();
       }
     }

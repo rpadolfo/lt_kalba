@@ -21,21 +21,27 @@ export const ReferenceView = {
       <style>
         .reference-subnav {
           display: flex;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
+          gap: 0.75rem;
+          margin-bottom: 1.25rem;
           border-bottom: 1px solid var(--border-color);
           padding-bottom: 0.75rem;
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+        .reference-subnav::-webkit-scrollbar {
+          display: none;
         }
         .ref-tab-btn {
           background: none;
           border: none;
           color: var(--text-secondary);
           font-weight: 600;
-          font-size: 1rem;
+          font-size: 0.92rem;
           cursor: pointer;
           padding: 6px 12px;
-          border-radius: 6px;
+          border-radius: 8px;
           transition: var(--transition-fast);
+          white-space: nowrap;
         }
         .ref-tab-btn:hover {
           color: white;
@@ -49,15 +55,15 @@ export const ReferenceView = {
         /* Alphabet Grid */
         .alphabet-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-          gap: 1rem;
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 0.75rem;
           margin-top: 1rem;
         }
         .alphabet-card {
           background-color: var(--bg-card);
           border: 1px solid var(--border-color);
           border-radius: 12px;
-          padding: 1rem;
+          padding: 0.85rem;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -69,27 +75,15 @@ export const ReferenceView = {
           box-shadow: var(--shadow-premium);
         }
         .letter-glyph {
-          font-size: 1.6rem;
+          font-size: 1.4rem;
           font-weight: 700;
           color: white;
           font-family: var(--font-heading);
         }
         .letter-name {
-          font-size: 0.85rem;
+          font-size: 0.8rem;
           color: var(--text-secondary);
           font-style: italic;
-        }
-        .letter-speak {
-          background: none;
-          border: none;
-          cursor: pointer;
-          font-size: 1rem;
-          color: var(--text-muted);
-          transition: var(--transition-fast);
-        }
-        .letter-speak:hover {
-          color: var(--primary-hover);
-          transform: scale(1.15);
         }
         
         /* Reference tables */
@@ -99,13 +93,13 @@ export const ReferenceView = {
           border-radius: 16px;
           overflow-x: auto;
           box-shadow: var(--shadow-premium);
-          margin-bottom: 2rem;
+          margin-bottom: 1.5rem;
         }
         .reference-table {
           width: 100%;
           border-collapse: collapse;
           text-align: left;
-          min-width: 500px;
+          min-width: 480px;
         }
         .reference-table th {
           background-color: rgba(255,255,255,0.02);
@@ -113,12 +107,14 @@ export const ReferenceView = {
           padding: 8px 12px;
           color: white;
           font-weight: 600;
+          font-size: 0.88rem;
         }
         .reference-table td {
           border-bottom: 1px solid var(--border-color);
           padding: 8px 12px;
           color: var(--text-secondary);
           vertical-align: middle;
+          font-size: 0.9rem;
         }
         .reference-table tr:last-child td {
           border-bottom: none;
@@ -130,79 +126,20 @@ export const ReferenceView = {
           border-radius: 4px;
           font-family: var(--font-mono);
           font-weight: 700;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
         }
 
-        /* Tooltip and Clickable word */
         .clickable-word {
           cursor: pointer;
-          border-bottom: 1px dashed rgba(255, 255, 255, 0.35);
+          border-bottom: 1.5px dashed rgba(139, 92, 246, 0.6);
           display: inline-block;
           transition: var(--transition-fast);
+          padding: 0 2px;
         }
-        .clickable-word:hover {
+        .clickable-word:hover, .clickable-word:active {
           color: var(--primary-hover);
-          border-bottom-color: var(--primary-hover);
-          background-color: rgba(139, 92, 246, 0.08);
+          background-color: rgba(139, 92, 246, 0.15);
           border-radius: 3px;
-        }
-        
-        /* Glassmorphism Morphological Tooltip */
-        .morph-tooltip {
-          position: absolute;
-          z-index: 1000;
-          background: rgba(15, 23, 42, 0.85);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 1.25rem;
-          border-radius: 14px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-          max-width: 280px;
-          color: white;
-          font-size: 0.9rem;
-          animation: tooltipFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-          display: none;
-        }
-        @keyframes tooltipFadeIn {
-          from { opacity: 0; transform: scale(0.95) translateY(5px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .tooltip-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 0.75rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          padding-bottom: 0.5rem;
-        }
-        .tooltip-word {
-          font-weight: 700;
-          color: var(--primary-hover);
-          font-size: 1.15rem;
-        }
-        .tooltip-row {
-          margin-bottom: 0.5rem;
-        }
-        .tooltip-label {
-          color: var(--text-secondary);
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          font-weight: 700;
-        }
-        .tooltip-value {
-          font-weight: 500;
-          color: white;
-        }
-        .tooltip-badge {
-          background-color: var(--primary-glow);
-          color: var(--primary-hover);
-          padding: 2px 6px;
-          border-radius: 4px;
-          font-size: 0.75rem;
-          font-weight: 600;
-          display: inline-block;
-          margin-top: 2px;
         }
       </style>
 
@@ -212,8 +149,8 @@ export const ReferenceView = {
         
         <div class="reference-subnav">
           <button class="ref-tab-btn ${this.activeSubTab === 'alphabet' ? 'active' : ''}" data-ref-tab="alphabet">Abėcėlė (Alfabeto)</button>
-          <button class="ref-tab-btn ${this.activeSubTab === 'declensions' ? 'active' : ''}" data-ref-tab="declensions">Declinação de Substantivos</button>
-          <button class="ref-tab-btn ${this.activeSubTab === 'verbs' ? 'active' : ''}" data-ref-tab="verbs">Conjugação Verbal</button>
+          <button class="ref-tab-btn ${this.activeSubTab === 'declensions' ? 'active' : ''}" data-ref-tab="declensions">Declinações</button>
+          <button class="ref-tab-btn ${this.activeSubTab === 'verbs' ? 'active' : ''}" data-ref-tab="verbs">Verbos no Presente</button>
         </div>
 
         <div class="reference-tab-content">
@@ -221,27 +158,34 @@ export const ReferenceView = {
         </div>
       </div>
 
-      <!-- Single reusable tooltip DOM structure -->
-      <div id="word-analyzer-tooltip" class="morph-tooltip">
-        <div class="tooltip-header">
-          <span class="tooltip-word" id="tooltip-title">Vilniuje</span>
+      <!-- Backdrop for Bottom Sheet -->
+      <div id="ref-sheet-backdrop" class="bottom-sheet-backdrop"></div>
+
+      <!-- Morphological Bottom Sheet Drawer -->
+      <div id="ref-bottom-sheet" class="bottom-sheet" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="bottom-sheet-handle"></div>
+        <div class="bottom-sheet-header">
+          <div class="bottom-sheet-title-group">
+            <span class="bottom-sheet-word" id="ref-sheet-word">Žodis</span>
+            <span class="bottom-sheet-badge" id="ref-sheet-case">Forma</span>
+          </div>
+          <button class="bottom-sheet-close-btn" id="ref-sheet-close-btn" aria-label="Fechar gaveta">✕</button>
         </div>
-        <div id="tooltip-body">
-          <div class="tooltip-row">
-            <div class="tooltip-label">Lema (Infinitivo/Nominativo)</div>
-            <div class="tooltip-value" id="tooltip-lemma">Vilnius</div>
-          </div>
-          <div class="tooltip-row">
-            <div class="tooltip-label">Tempo / Caso</div>
-            <div class="tooltip-value" id="tooltip-case"><span class="tooltip-badge">Locativo (Kur?)</span></div>
-          </div>
-          <div class="tooltip-row">
-            <div class="tooltip-label">Classe</div>
-            <div class="tooltip-value" id="tooltip-type">Substantivo Masculino (M)</div>
-          </div>
-          <div class="tooltip-row" style="margin-bottom: 0;">
-            <div class="tooltip-label">Tradução</div>
-            <div class="tooltip-value" id="tooltip-translation" style="color: var(--success);">Vilnius (capital)</div>
+        
+        <div class="bottom-sheet-content">
+          <div class="sheet-info-grid">
+            <div class="sheet-info-card">
+              <span class="sheet-label">Lema (Dicionário)</span>
+              <span class="sheet-val" id="ref-sheet-lemma">-</span>
+            </div>
+            <div class="sheet-info-card">
+              <span class="sheet-label">Classe / Gênero</span>
+              <span class="sheet-val" id="ref-sheet-type">-</span>
+            </div>
+            <div class="sheet-info-card sheet-translation-card">
+              <span class="sheet-label">Tradução em Português</span>
+              <span class="sheet-val sheet-translation" id="ref-sheet-translation">-</span>
+            </div>
           </div>
         </div>
       </div>
@@ -251,16 +195,14 @@ export const ReferenceView = {
   renderAlphabetTab() {
     return `
       <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;">
-        Esta é a tabela de soletração e fonética da língua lituana. O domínio dos nomes das letras é útil para exercitar a <b>soletração (Paraidžiui)</b>.
+        Tabela oficial de letras e nomes fonéticos do alfabeto lituano:
       </p>
-      
+
       <div class="alphabet-grid">
         ${this.alphabet.map(item => `
           <div class="alphabet-card">
-            <div>
-              <div class="letter-glyph">${item.letter}</div>
-              <div class="letter-name">${item.name}</div>
-            </div>
+            <span class="letter-glyph">${item.letter}</span>
+            <span class="letter-name">${item.name}</span>
           </div>
         `).join('')}
       </div>
@@ -269,21 +211,27 @@ export const ReferenceView = {
 
   renderDeclensionsTab() {
     return `
-      <h3 style="color: white; margin-bottom: 0.75rem; font-family: var(--font-heading);">Declinações Singulares</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;">
+        Terminações essenciais de substantivos para o nível A1/A2 da Categoria I:
+      </p>
+
+      <h3 style="font-family: var(--font-heading); color: white; margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
+        Singular (Vienaskaita)
+      </h3>
       <div class="reference-table-wrapper">
         <table class="reference-table">
           <thead>
             <tr>
               <th style="width: 25%">Caso</th>
-              <th style="width: 25%">Masculino (Sing.)</th>
-              <th style="width: 25%">Feminino (Sing.)</th>
-              <th style="width: 25%">Função Principal</th>
+              <th style="width: 25%">Masc. (-as, -is, -ys, -ius)</th>
+              <th style="width: 25%">Fem. (-a, -ė)</th>
+              <th style="width: 25%">Uso Prático</th>
             </tr>
           </thead>
           <tbody>
             ${this.declensions.singular.map(row => `
               <tr>
-                <td style="font-weight: 700; color: white;">${row.case}</td>
+                <td><b>${row.case}</b></td>
                 <td><code>${row.m_suffix}</code></td>
                 <td><code>${row.f_suffix}</code></td>
                 <td>${row.usage}</td>
@@ -293,20 +241,22 @@ export const ReferenceView = {
         </table>
       </div>
 
-      <h3 style="color: white; margin-bottom: 0.75rem; font-family: var(--font-heading); margin-top: 2rem;">Declinações Plurais</h3>
+      <h3 style="font-family: var(--font-heading); color: white; margin-top: 2rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
+        Plural (Daugiskaita)
+      </h3>
       <div class="reference-table-wrapper">
         <table class="reference-table">
           <thead>
             <tr>
               <th style="width: 30%">Caso</th>
-              <th style="width: 35%">Terminação Plural</th>
-              <th style="width: 35%">Função Principal</th>
+              <th style="width: 35%">Terminações Plurais</th>
+              <th style="width: 35%">Uso Prático</th>
             </tr>
           </thead>
           <tbody>
             ${this.declensions.plural.map(row => `
               <tr>
-                <td style="font-weight: 700; color: white;">${row.case}</td>
+                <td><b>${row.case}</b></td>
                 <td><code>${row.suffix}</code></td>
                 <td>${row.usage}</td>
               </tr>
@@ -314,51 +264,49 @@ export const ReferenceView = {
           </tbody>
         </table>
       </div>
-
-      <div style="background-color: rgba(139, 92, 246, 0.04); border-left: 4px solid var(--primary); padding: 1rem; border-radius: 6px; margin-top: 1.5rem;">
-        <h4 style="color: var(--primary-hover); margin-bottom: 0.25rem;">💡 Regra de Ouro do Genitivo Plural</h4>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; margin: 0;">
-          No plural, <b>todos</b> os substantivos lituanos de todos os gêneros e declinações terminam em <b>-ų</b> ou <b>-ių</b> no caso Genitivo (ex: <i>namai</i> -> <i>namų</i>, <i>kavos</i> -> <i>kavų</i>).
-        </p>
-      </div>
     `;
   },
 
   renderVerbsTab() {
     return `
-      <h3 style="color: white; margin-bottom: 0.75rem; font-family: var(--font-heading);">Verbo Irregular BŪTI (Ser / Estar)</h3>
-      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">O principal verbo da língua lituana tem conjugação irregular no presente:</p>
-      
-      <div class="reference-table-wrapper" style="margin-bottom: 2rem;">
-        <table class="reference-table">
-          <thead>
-            <tr>
-              <th style="width: 50%">Pronome</th>
-              <th style="width: 50%">Conjugação (Clique para traduzir)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><b>aš</b> (eu)</td><td><code><span class="clickable-word" data-word="esu">esu</span></code></td></tr>
-            <tr><td><b>tu</b> (tu/você)</td><td><code><span class="clickable-word" data-word="esi">esi</span></code></td></tr>
-            <tr><td><b>jis / ji</b> (ele/ela)</td><td><code><span class="clickable-word" data-word="yra">yra</span></code></td></tr>
-            <tr><td><b>mes</b> (nós)</td><td><code><span class="clickable-word" data-word="esame">esame</span></code></td></tr>
-            <tr><td><b>jūs</b> (vocês)</td><td><code><span class="clickable-word" data-word="esate">esate</span></code></td></tr>
-            <tr><td><b>jie / jos</b> (eles/elas)</td><td><code><span class="clickable-word" data-word="yra">yra</span></code></td></tr>
-          </tbody>
-        </table>
-      </div>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;">
+        Conjugação no presente dos 3 verbos estruturais da Categoria I. Toque em qualquer forma conjugada para abrir a análise:
+      </p>
 
-      <h3 style="color: white; margin-bottom: 0.75rem; font-family: var(--font-heading); margin-top: 2rem;">1ª Asmenuotė (Conjugação de Verbos Regulares)</h3>
-      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Verbos regulares terminados em <b>-ti</b> (presente com raiz em -a-, como <i>dirbti</i>, <i>gyventi</i>, <i>suprasti</i>) seguem as seguintes desinências no presente:</p>
-      
+      <h3 style="font-family: var(--font-heading); color: white; margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
+        Verbo BŪTI (Ser / Estar) • Irregular
+      </h3>
       <div class="reference-table-wrapper">
         <table class="reference-table">
           <thead>
             <tr>
-              <th style="width: 25%">Pessoa</th>
-              <th style="width: 25%">Desinência</th>
-              <th style="width: 25%">dirbti</th>
-              <th style="width: 25%">gyventi</th>
+              <th style="width: 30%">Pronome</th>
+              <th style="width: 35%">Forma em Lituano</th>
+              <th style="width: 35%">Significado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><b>aš</b> (eu)</td><td><code><span class="clickable-word" data-word="esu">esu</span></code></td><td>sou / estou</td></tr>
+            <tr><td><b>tu</b> (tu/você)</td><td><code><span class="clickable-word" data-word="esi">esi</span></code></td><td>és / estás</td></tr>
+            <tr><td><b>jis / ji</b> (ele/ela)</td><td><code><span class="clickable-word" data-word="yra">yra</span></code></td><td>é / está</td></tr>
+            <tr><td><b>mes</b> (nós)</td><td><code><span class="clickable-word" data-word="esame">esame</span></code></td><td>somos / estamos</td></tr>
+            <tr><td><b>jūs</b> (vocês)</td><td><code><span class="clickable-word" data-word="esate">esate</span></code></td><td>sois / estais</td></tr>
+            <tr><td><b>jie / jos</b> (eles/elas)</td><td><code><span class="clickable-word" data-word="yra">yra</span></code></td><td>são / estão</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="font-family: var(--font-heading); color: white; margin-top: 2rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
+        Verbos Regulares: 1ª Conjugação (-a)
+      </h3>
+      <div class="reference-table-wrapper">
+        <table class="reference-table">
+          <thead>
+            <tr>
+              <th style="width: 25%">Pronome</th>
+              <th style="width: 25%">Sufixo</th>
+              <th style="width: 25%">dirbti (trabalhar)</th>
+              <th style="width: 25%">gyventi (morar)</th>
             </tr>
           </thead>
           <tbody>
@@ -383,38 +331,64 @@ export const ReferenceView = {
       });
     });
 
-    // 2. Clickable word tooltip analyzer trigger
-    const clickableWords = document.querySelectorAll('.clickable-word');
-    const tooltip = document.getElementById('word-analyzer-tooltip');
-    
-    if (tooltip) {
-      document.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('clickable-word') && !tooltip.contains(e.target)) {
-          tooltip.style.display = 'none';
-        }
-      });
-    }
+    // 2. Bottom Sheet Interactivity
+    const bottomSheet = document.getElementById('ref-bottom-sheet');
+    const backdrop = document.getElementById('ref-sheet-backdrop');
+    const closeBtn = document.getElementById('ref-sheet-close-btn');
 
+    const closeSheet = () => {
+      if (bottomSheet && backdrop) {
+        bottomSheet.classList.remove('open');
+        backdrop.classList.remove('open');
+        bottomSheet.setAttribute('aria-hidden', 'true');
+      }
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', closeSheet);
+    if (backdrop) backdrop.addEventListener('click', closeSheet);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSheet();
+    });
+
+    const clickableWords = document.querySelectorAll('.clickable-word');
     clickableWords.forEach(wordSpan => {
       wordSpan.addEventListener('click', (e) => {
         e.stopPropagation();
         const word = wordSpan.dataset.word;
-        
-        const rect = wordSpan.getBoundingClientRect();
-        const tooltipX = Math.max(10, Math.min(window.innerWidth - 300, rect.left + window.scrollX));
-        const tooltipY = rect.bottom + window.scrollY + 8;
-        
-        tooltip.style.left = `${tooltipX}px`;
-        tooltip.style.top = `${tooltipY}px`;
-        tooltip.style.display = 'block';
-        
         const result = morphologyService.analyzeWord(word);
         
-        document.getElementById('tooltip-title').textContent = result.word;
-        document.getElementById('tooltip-lemma').textContent = result.lemma;
-        document.getElementById('tooltip-case').innerHTML = `<span class="tooltip-badge" style="background-color: rgba(139, 92, 246, 0.2); color: var(--primary-hover);">${result.case}</span>`;
-        document.getElementById('tooltip-type').textContent = `${result.type} ${result.gender !== 'N/A' ? '(' + result.gender + ')' : ''}`;
-        document.getElementById('tooltip-translation').textContent = result.translation;
+        const wordEl = document.getElementById('ref-sheet-word');
+        const caseEl = document.getElementById('ref-sheet-case');
+        const lemmaEl = document.getElementById('ref-sheet-lemma');
+        const typeEl = document.getElementById('ref-sheet-type');
+        const transEl = document.getElementById('ref-sheet-translation');
+
+        if (wordEl) wordEl.textContent = result.word;
+        if (lemmaEl) lemmaEl.textContent = result.lemma;
+        
+        if (caseEl) {
+          const isNominative = result.case.includes("Nominativo") || result.case.includes("Infinitivo");
+          const badgeColor = isNominative ? "rgba(139, 92, 246, 0.2)" : "rgba(16, 185, 129, 0.2)";
+          const textColor = isNominative ? "var(--primary-hover)" : "var(--success)";
+          
+          caseEl.textContent = result.case;
+          caseEl.style.backgroundColor = badgeColor;
+          caseEl.style.color = textColor;
+        }
+        
+        if (typeEl) {
+          typeEl.textContent = `${result.type} ${result.gender !== 'N/A' ? '(' + result.gender + ')' : ''}`;
+        }
+        if (transEl) {
+          transEl.textContent = result.translation;
+        }
+        
+        if (bottomSheet && backdrop) {
+          bottomSheet.classList.add('open');
+          backdrop.classList.add('open');
+          bottomSheet.setAttribute('aria-hidden', 'false');
+        }
       });
     });
   }

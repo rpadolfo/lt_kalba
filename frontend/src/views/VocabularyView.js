@@ -49,8 +49,13 @@ export const VocabularyView = {
 
     return `
       <div class="view vocabulary-view">
+        <!-- Floating notification toast (Fixed outside flow) -->
+        <div id="xp-toast" class="xp-toast-floating">
+          +15 XP! Próxima revisão agendada.
+        </div>
+
         <h1 class="view-title">Kortelės (Vocabulário)</h1>
-        <p class="view-subtitle">Toque na carta para revelar a tradução e selecione a dificuldade para programar a próxima revisão.</p>
+        <p class="view-subtitle">Toque na carta para revelar a tradução e avalie para programar a próxima revisão.</p>
         
         <div class="flashcard-view-container">
           <div class="srs-info-bar">
@@ -67,7 +72,7 @@ export const VocabularyView = {
                 <h2 class="word-term">${currentWord.stressed}</h2>
                 <div class="flip-hint">
                   <span>🔄</span>
-                  <span>Clique para virar</span>
+                  <span>Toque para virar</span>
                 </div>
               </div>
               
@@ -82,19 +87,14 @@ export const VocabularyView = {
                 ` : ''}
                 
                 <div class="flip-hint" style="color: var(--text-muted);">
-                  <span>Clique para desvirar</span>
+                  <span>Toque para desvirar</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Feedback notification Toast in-UI -->
-          <div id="xp-toast" style="opacity: 0; transform: translateY(10px); transition: var(--transition-smooth); background-color: var(--success-glow); border: 1px solid var(--success); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; width: 100%; font-size: 0.95rem; font-weight: 500;">
-            +15 XP! Próxima revisão agendada.
-          </div>
-
           <!-- SRS Buttons Group (Visible when card is flipped) -->
-          <div class="srs-buttons-container" id="srs-actions" style="visibility: hidden; opacity: 0; transition: opacity 0.3s; height: 75px;">
+          <div class="srs-buttons-container" id="srs-actions" style="visibility: hidden; opacity: 0; transition: opacity 0.3s ease;">
             <button class="srs-btn srs-btn-hard" data-rating="hard">
               <span>Difícil</span>
               <span class="srs-btn-sub">Rever logo</span>
@@ -147,9 +147,9 @@ export const VocabularyView = {
       srsActions.style.visibility = isFlipped ? 'visible' : 'hidden';
       srsActions.style.opacity = isFlipped ? '1' : '0';
       
-      // Auto-hide toast when flipping card back/forth
-      toast.style.opacity = 0;
-      toast.style.transform = 'translateY(10px)';
+      if (toast) {
+        toast.classList.remove('show');
+      }
     });
 
     // 4. SRS Buttons triggers
@@ -163,26 +163,24 @@ export const VocabularyView = {
         // Process SRS rating and calculate new state
         const srsResult = db.processSRSRating(currentWord.id, rating);
         
-        if (srsResult) {
-          // Show toast with dynamic SRS info
-          toast.textContent = `+${srsResult.xpGained} XP! Próxima revisão agendada para: ${srsResult.nextReviewDate}`;
-          toast.style.opacity = 1;
-          toast.style.transform = 'translateY(0)';
+        if (srsResult && toast) {
+          // Show floating toast with dynamic SRS info
+          toast.textContent = `+${srsResult.xpGained} XP! Próxima revisão: ${srsResult.nextReviewDate}`;
+          toast.classList.add('show');
           
           // Animate and switch to next card after a brief delay
           setTimeout(() => {
             card.classList.remove('flipped');
             srsActions.style.visibility = 'hidden';
             srsActions.style.opacity = '0';
-            toast.style.opacity = 0;
-            toast.style.transform = 'translateY(10px)';
+            toast.classList.remove('show');
             
             setTimeout(() => {
               this.currentCardIndex = (this.currentCardIndex + 1) % this.deck.length;
               forceRenderCallback();
             }, 300); // Wait for card back-flip animation to finish
             
-          }, 1500); // Show review toast info for 1.5 seconds
+          }, 1200); // Show review toast info for 1.2 seconds
         }
       });
     });
