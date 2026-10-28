@@ -89,4 +89,7 @@
    - Todo código adicionado deve ser reutilizável; nada de funções ou scripts descartáveis de uso único.
 5. **Tolerância Zero a Processos Pendurados em Background:**
    - Nenhum agente deve deixar tarefas, scripts, servidores ou processos órfãos rodando em segundo plano.
-6. **Commits e Branches:** O progresso deve ser salvo por checkpoints e commits claros no repositório GitHub já conectado.
+6. **Commits, Branches e PRs em Inglês Profissional:**
+   - Mensagens de commit e PRs devem ser redigidas exclusivamente em **inglês com Conventional Commits** (`feat:`, `fix:`, `refactor:`, `test:`, `chore:`), mantendo o repositório como portfólio profissional impecável.
+7. **Deploy Contínuo no GitHub Pages pós-Homologação:**
+   - Toda OS homologada pelo QA segue direto para deploy na branch `main`, ativando o pipeline do GitHub Actions para publicação em `https://rpadolfo.github.io/lt_kalba/`.

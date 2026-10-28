@@ -50,6 +50,10 @@
 5. **Reaproveitamento Arquitetural (GitHub Pages & Mobile):**
    - O frontend deve ser viável para deploy estático no **GitHub Pages (`github.io`)**.
    - A base de código deve ser reutilizável e compatível com empacotamento nativo em **Android (e iOS)** (via PWA ou Capacitor).
+6. **Padrão Profissional de Git (Commits & PRs em Inglês):**
+   - Todas as mensagens de commit, branches e PRs/MRs devem seguir rigorosamente o padrão **Conventional Commits em inglês** (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`). O repositório deve manter um histórico de nível profissional para apresentação em portfólio.
+7. **Deploy Automático pós-Homologação:**
+   - Uma vez que a OS for homologada pelo QA e aprovada pelo usuário, ela segue direto para deploy na branch `main` com pipeline CI/CD.
 
 ---
 
