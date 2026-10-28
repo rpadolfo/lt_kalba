@@ -52,8 +52,8 @@ export const LESSONS = [
           <p>Terminam em vogal + <b>s</b>:</p>
           <ul style="padding-left: 1.25rem; font-size: 0.9rem;">
             <li><b>-as</b>: draug<b>as</b> (amigo), nam<b>as</b> (casa)</li>
-            <li><b>-is</b>: brol<b>is</b> (irmão), miest<b>is</b></li>
-            <li><b>-ys</b>: mokyt<b>ys</b> (professor)</li>
+            <li><b>-is</b>: brol<b>is</b> (irmão), med<b>is</b> (árvore)</li>
+            <li><b>-ys</b>: mokin<b>ys</b> (aluno), kambar<b>ys</b> (quarto)</li>
             <li><b>-us</b>: sūn<b>us</b> (filho), Vilni<b>us</b></li>
           </ul>
         </div>
@@ -64,7 +64,8 @@ export const LESSONS = [
           <ul style="padding-left: 1.25rem; font-size: 0.9rem;">
             <li><b>-a</b>: kav<b>a</b> (café), mam<b>a</b> (mãe)</li>
             <li><b>-ė</b>: kat<b>ė</b> (gata), dukt<b>ė</b> (filha)</li>
-            <li><b>-i</b> (raro): seser<b>i</b>s (irmã)</li>
+            <li><b>-is</b> (3ª declinação): šal<b>is</b> (país), nakt<b>is</b> (noite)</li>
+            <li><b>Exceções</b>: sesu<b>o</b> (irmã)</li>
           </ul>
         </div>
       </div>

@@ -151,7 +151,7 @@ const INITIAL_VOCABULARY = [
     stressed: "R<span class=\"stressed\">u</span>sija",
     translation: "Rússia",
     type: "substantivo (F)",
-    example: "R<span class=\"stressed\">u</span>sija yra muito didelė šalis.",
+    example: "R<span class=\"stressed\">u</span>sija yra labai didelė šalis.",
     exampleTranslation: "A Rússia é um país muito grande.",
     module: 1,
     srsStage: 0,
