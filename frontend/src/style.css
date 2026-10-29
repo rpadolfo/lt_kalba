@@ -1425,7 +1425,7 @@ p.view-subtitle {
     border-color: var(--primary);
   }
 
-  /* 3. Mobile Bottom Navigation (5 tabs with visible micro-labels) */
+  /* 3. Mobile Bottom Navigation (4 core learning tabs in PT-BR) */
   .mobile-bottom-nav {
     display: flex !important;
     position: fixed;

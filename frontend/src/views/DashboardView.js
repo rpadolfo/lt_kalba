@@ -519,10 +519,10 @@ export const DashboardView = {
           <!-- Central Hero Card: 1-Touch Action to Continue Learning -->
           <div class="hero-study-card">
             <div class="hero-info-side">
-              <span class="hero-badge-tag">Próximo Passo Recomendado</span>
-              <h2 class="hero-study-title">Lição 1: Saudações e Apresentação (Labas!)</h2>
+              <span class="hero-badge-tag">Módulo 1 • Iniciar Trilha</span>
+              <h2 class="hero-study-title">Lição 1: Gênero dos Substantivos: A Chave das Terminações</h2>
               <p class="hero-study-desc">
-                Aprenda a cumprimentar, perguntar <i>Kaip sekasi?</i> e dominar as respostas essenciais para a prova oral.
+                Aprenda a reconhecer instantaneamente substantivos masculinos (-as, -is, -ys, -us) e femininos (-a, -ė) essenciais para a Categoria I.
               </p>
             </div>
             <div class="hero-action-side">
@@ -532,61 +532,61 @@ export const DashboardView = {
             </div>
           </div>
 
-          <!-- Section: 3 Missões Diárias -->
+          <!-- Section: 3 Missões Diárias Ativas (Adeus Cards) -->
           <div class="missions-section">
             <div class="section-header-compact">
               <h3>🎯 Missões do Dia</h3>
-              <span>3 passos práticos para avançar</span>
+              <span>3 passos práticos para avançar no Módulo 1</span>
             </div>
 
             <div class="missions-grid">
-              <!-- Mission 1: Cards & SRS -->
+              <!-- Mission 1: Gender Sorting -->
               <div class="mission-card">
                 <div class="mission-card-top">
-                  <div class="mission-icon-box">🎴</div>
+                  <div class="mission-icon-box">👨/👩</div>
                   <div class="mission-text-box">
-                    <h4>Revisar Cards de Vocabulário</h4>
-                    <p>Treine a retenção no Spaced Repetition (SRS) para fixar na memória de longo prazo.</p>
+                    <h4>Separação de Gênero M vs F</h4>
+                    <p>Classifique substantivos pelas desinências (-as, -is, -a, -ė) na mecânica ativa.</p>
                   </div>
                 </div>
                 <div class="mission-card-footer">
-                  <span class="mission-xp-tag">+15 XP / card</span>
-                  <button class="btn btn-secondary mission-action-btn" data-target-tab="vocabulary">
-                    Praticar Cards
+                  <span class="mission-xp-tag">+15 XP</span>
+                  <button class="btn btn-secondary mission-action-btn" data-target-tab="exercises" data-target-mode="gender-sorting">
+                    Treinar Gênero
                   </button>
                 </div>
               </div>
 
-              <!-- Mission 2: Dialogue & Audio -->
+              <!-- Mission 2: Case Snapping (Kur?) -->
               <div class="mission-card">
                 <div class="mission-card-top">
-                  <div class="mission-icon-box">💬</div>
+                  <div class="mission-icon-box">📍</div>
                   <div class="mission-text-box">
-                    <h4>Praticar Diálogo Real</h4>
-                    <p>Leia a conversa do cotidiano e toque nas palavras para abrir a análise morfológica.</p>
-                  </div>
-                </div>
-                <div class="mission-card-footer">
-                  <span class="mission-xp-tag">+25 XP</span>
-                  <button class="btn btn-secondary mission-action-btn" data-target-tab="dialogues">
-                    Abrir Diálogo
-                  </button>
-                </div>
-              </div>
-
-              <!-- Mission 3: Practical Workout -->
-              <div class="mission-card">
-                <div class="mission-card-top">
-                  <div class="mission-icon-box">📝</div>
-                  <div class="mission-text-box">
-                    <h4>Treino de Fixação</h4>
-                    <p>Preencha as lacunas gramaticais e teste sua aplicação prática das terminações.</p>
+                    <h4>Encaixe do Locativo (Kur?)</h4>
+                    <p>Encaixe desinências de lugar (-e, -uje, -yje, -oje, -ėje) sem usar preposições.</p>
                   </div>
                 </div>
                 <div class="mission-card-footer">
                   <span class="mission-xp-tag">+20 XP</span>
-                  <button class="btn btn-secondary mission-action-btn" data-target-tab="exercises">
-                    Fazer Treino
+                  <button class="btn btn-secondary mission-action-btn" data-target-tab="exercises" data-target-mode="case-snapping">
+                    Treinar Locativo
+                  </button>
+                </div>
+              </div>
+
+              <!-- Mission 3: Situational Roleplay -->
+              <div class="mission-card">
+                <div class="mission-card-top">
+                  <div class="mission-icon-box">💬</div>
+                  <div class="mission-text-box">
+                    <h4>Simulação em Vilnius</h4>
+                    <p>Interaja no diálogo guiado com escolhas reais e feedback da prova oral.</p>
+                  </div>
+                </div>
+                <div class="mission-card-footer">
+                  <span class="mission-xp-tag">+35 XP</span>
+                  <button class="btn btn-secondary mission-action-btn" data-target-tab="dialogues">
+                    Iniciar Diálogo
                   </button>
                 </div>
               </div>
@@ -770,8 +770,9 @@ export const DashboardView = {
     document.querySelectorAll('.mission-action-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const targetTab = btn.dataset.targetTab;
+        const targetMode = btn.dataset.targetMode;
         if (targetTab) {
-          navigateCallback(targetTab);
+          navigateCallback(targetTab, targetMode ? { mode: targetMode } : null);
         }
       });
     });

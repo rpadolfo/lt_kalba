@@ -15,11 +15,11 @@ let currentFilterOptions = null;
 const VIEWS = {
   dashboard: DashboardView,
   lessons: LessonsView,
-  dialogues: DialoguesView,
-  vocabulary: VocabularyView,
   exercises: ExercisesView,
+  dialogues: DialoguesView,
   reference: ReferenceView,
-  manage: ManageContentView
+  manage: ManageContentView,
+  vocabulary: VocabularyView // Retained for backwards compatibility
 };
 
 function renderLayout() {
@@ -74,21 +74,15 @@ function renderLayout() {
             </button>
           </li>
           <li class="nav-item">
-            <button class="nav-btn ${currentTab === 'dialogues' ? 'active' : ''}" data-target="dialogues">
-              <span class="nav-icon">💬</span>
-              <span>Diálogos</span>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-btn ${currentTab === 'vocabulary' ? 'active' : ''}" data-target="vocabulary">
-              <span class="nav-icon">🎴</span>
-              <span>Cards</span>
-            </button>
-          </li>
-          <li class="nav-item">
             <button class="nav-btn ${currentTab === 'exercises' ? 'active' : ''}" data-target="exercises">
               <span class="nav-icon">📝</span>
               <span>Treino</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-btn ${currentTab === 'dialogues' ? 'active' : ''}" data-target="dialogues">
+              <span class="nav-icon">💬</span>
+              <span>Diálogos</span>
             </button>
           </li>
           <li class="nav-item">
@@ -122,7 +116,7 @@ function renderLayout() {
       <!-- Active view will be rendered here -->
     </main>
 
-    <!-- Mobile Bottom Navigation Bar (5 core learning tabs in PT-BR) -->
+    <!-- Mobile Bottom Navigation Bar (4 essential learning tabs in PT-BR) -->
     <nav class="mobile-bottom-nav">
       <button class="bottom-nav-btn ${currentTab === 'dashboard' ? 'active' : ''}" data-target="dashboard">
         <span class="bottom-nav-icon">📊</span>
@@ -132,17 +126,13 @@ function renderLayout() {
         <span class="bottom-nav-icon">📖</span>
         <span class="bottom-nav-label">Lições</span>
       </button>
-      <button class="bottom-nav-btn ${currentTab === 'dialogues' ? 'active' : ''}" data-target="dialogues">
-        <span class="bottom-nav-icon">💬</span>
-        <span class="bottom-nav-label">Diálogos</span>
-      </button>
-      <button class="bottom-nav-btn ${currentTab === 'vocabulary' ? 'active' : ''}" data-target="vocabulary">
-        <span class="bottom-nav-icon">🎴</span>
-        <span class="bottom-nav-label">Cards</span>
-      </button>
       <button class="bottom-nav-btn ${currentTab === 'exercises' ? 'active' : ''}" data-target="exercises">
         <span class="bottom-nav-icon">📝</span>
         <span class="bottom-nav-label">Treino</span>
+      </button>
+      <button class="bottom-nav-btn ${currentTab === 'dialogues' ? 'active' : ''}" data-target="dialogues">
+        <span class="bottom-nav-icon">💬</span>
+        <span class="bottom-nav-label">Diálogos</span>
       </button>
     </nav>
   `;
@@ -160,59 +150,70 @@ function renderLayout() {
 }
 
 function renderActiveView() {
-  const viewArea = document.querySelector('#main-view-area');
-  const activeView = VIEWS[currentTab];
-  
-  if (activeView) {
-    viewArea.innerHTML = activeView.render(currentFilterOptions);
-    currentFilterOptions = null;
-    activeView.setup(navigate, forceRenderActiveView);
+  const mainViewArea = document.querySelector('#main-view-area');
+  if (!mainViewArea) return;
+
+  const ViewComponent = VIEWS[currentTab] || DashboardView;
+
+  // Render view HTML
+  mainViewArea.innerHTML = ViewComponent.render(currentFilterOptions);
+
+  // Bind events and lifecycle hooks for the rendered view
+  if (typeof ViewComponent.setup === 'function') {
+    ViewComponent.setup(navigate, forceRender);
   }
+
+  // Update document title for context
+  const titles = {
+    dashboard: 'LT Kalba - Jornada de Estudo',
+    lessons: 'LT Kalba - Trilha de Lições (Módulo 1)',
+    exercises: 'LT Kalba - Hub de Treino Ativo',
+    dialogues: 'LT Kalba - Diálogos Situacionais',
+    reference: 'LT Kalba - Žinynas (Guia de Referência)',
+    manage: 'LT Kalba - Redigir Conteúdo',
+    vocabulary: 'LT Kalba - Vocabulário'
+  };
+  document.title = titles[currentTab] || 'LT Kalba';
 }
 
-// Navigation Helper
+function updateActiveNavClasses() {
+  // Update desktop sidebar buttons
+  document.querySelectorAll('.sidebar .nav-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.target === currentTab);
+  });
+
+  // Update mobile bottom nav buttons
+  document.querySelectorAll('.mobile-bottom-nav .bottom-nav-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.target === currentTab);
+  });
+
+  // Update mobile top header action buttons
+  document.querySelectorAll('.mobile-top-header .header-action-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.target === currentTab);
+  });
+}
+
 function navigate(tabName, options = null) {
   if (VIEWS[tabName]) {
     currentTab = tabName;
     currentFilterOptions = options;
     
-    // Update active state across all buttons (Desktop sidebar, mobile header, mobile bottom nav)
-    document.querySelectorAll('[data-target]').forEach(btn => {
-      if (btn.dataset.target === tabName) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
-    
-    // Scroll smoothly to top of main area
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    
+    // Update active visual classes across headers and navigation
+    updateActiveNavClasses();
+
+    // Render new view
     renderActiveView();
+
+    // Reset window scroll to top
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 }
 
-// Refresh callback for active view redraws (like clicking Next Card)
-function forceRenderActiveView() {
+function forceRender() {
   renderActiveView();
-  
-  // Refresh streak indicator in both sidebar and mobile header
-  const progress = db.getProgress();
-  const streakText = document.querySelector('.streak-label');
-  if (streakText) {
-    streakText.textContent = `${progress.streak || 0} dias seguidos`;
-  }
-  const mobileStreakNum = document.querySelector('.streak-num');
-  if (mobileStreakNum) {
-    mobileStreakNum.textContent = `${progress.streak || 0}`;
-  }
 }
 
-// Initialize SPA
+// Global App Initialization
 document.addEventListener('DOMContentLoaded', () => {
   renderLayout();
 });
-
-if (document.readyState === 'interactive' || document.readyState === 'complete') {
-  renderLayout();
-}
