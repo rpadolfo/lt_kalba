@@ -102,21 +102,21 @@ export const DialoguesView = {
           line-height: 1.5;
         }
         .chat-bubble-row.user-side .bubble-text {
-          background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(236, 72, 153, 0.06));
-          border-color: rgba(139, 92, 246, 0.3);
+          background: #1f2b23;
+          border-color: rgba(245, 158, 11, 0.35);
           border-radius: 18px;
           border-top-right-radius: 2px;
         }
         .clickable-word {
           cursor: pointer;
-          border-bottom: 1.5px dashed rgba(139, 92, 246, 0.6);
+          border-bottom: 1.5px dashed rgba(245, 158, 11, 0.7);
           display: inline-block;
           transition: var(--transition-fast);
           padding: 0 1px;
         }
         .clickable-word:hover, .clickable-word:active {
           color: var(--primary-hover);
-          background-color: rgba(139, 92, 246, 0.15);
+          background-color: rgba(245, 158, 11, 0.18);
           border-radius: 3px;
         }
       </style>
@@ -300,7 +300,7 @@ export const DialoguesView = {
     
     if (caseEl) {
       const isNominative = result.case.includes("Nominativo") || result.case.includes("Infinitivo");
-      const badgeColor = isNominative ? "rgba(139, 92, 246, 0.2)" : "rgba(16, 185, 129, 0.2)";
+      const badgeColor = isNominative ? "rgba(245, 158, 11, 0.18)" : "rgba(16, 185, 129, 0.18)";
       const textColor = isNominative ? "var(--primary-hover)" : "var(--success)";
       
       caseEl.textContent = result.case;

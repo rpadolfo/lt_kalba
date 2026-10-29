@@ -22,7 +22,7 @@ export const ReferenceView = {
         .reference-subnav {
           display: flex;
           gap: 0.75rem;
-          margin-bottom: 1.25rem;
+          margin-bottom: 1.5rem;
           border-bottom: 1px solid var(--border-color);
           padding-bottom: 0.75rem;
           overflow-x: auto;
@@ -32,68 +32,129 @@ export const ReferenceView = {
           display: none;
         }
         .ref-tab-btn {
-          background: none;
-          border: none;
+          background: #18201B;
+          border: 1px solid var(--border-color);
+          border-bottom: 3px solid #141c17;
           color: var(--text-secondary);
           font-weight: 600;
           font-size: 0.92rem;
           cursor: pointer;
-          padding: 6px 12px;
-          border-radius: 8px;
-          transition: var(--transition-fast);
+          padding: 8px 16px;
+          border-radius: 10px;
+          transition: all 0.1s ease;
           white-space: nowrap;
         }
         .ref-tab-btn:hover {
-          color: white;
-          background-color: rgba(255, 255, 255, 0.03);
+          color: var(--text-primary);
+          border-color: var(--primary-base);
         }
         .ref-tab-btn.active {
-          color: var(--primary-hover);
-          background-color: var(--primary-glow);
+          color: #111614;
+          background-color: var(--primary);
+          border-color: var(--primary);
+          border-bottom: 3px solid var(--primary-active);
+          font-weight: 700;
+        }
+        .ref-tab-btn:active {
+          transform: translateY(2px);
+          border-bottom-width: 1px;
         }
         
-        /* Alphabet Grid */
+        /* Alphabet Grid & Cards with Brazilian Phonetics */
         .alphabet-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-          gap: 0.75rem;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 1rem;
           margin-top: 1rem;
+        }
+        @media (max-width: 600px) {
+          .alphabet-grid {
+            grid-template-columns: 1fr;
+          }
         }
         .alphabet-card {
           background-color: var(--bg-card);
           border: 1px solid var(--border-color);
-          border-radius: 12px;
-          padding: 0.85rem;
+          border-radius: var(--card-radius, 14px);
+          padding: 1rem 1.15rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.65rem;
+          transition: transform 0.15s ease, border-color 0.15s ease;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        }
+        .alphabet-card:hover {
+          border-color: var(--primary-base);
+          transform: translateY(-2px);
+        }
+        .alphabet-card.special-letter {
+          border-left: 3px solid var(--primary);
+        }
+        .alphabet-card-header {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          transition: var(--transition-smooth);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          padding-bottom: 0.5rem;
         }
-        .alphabet-card:hover {
-          border-color: var(--primary);
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-premium);
+        .letter-glyph-box {
+          display: flex;
+          align-items: baseline;
+          gap: 0.6rem;
         }
         .letter-glyph {
-          font-size: 1.4rem;
-          font-weight: 700;
-          color: white;
+          font-size: 1.6rem;
+          font-weight: 800;
+          color: var(--text-primary);
           font-family: var(--font-heading);
+          line-height: 1;
         }
         .letter-name {
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           color: var(--text-secondary);
           font-style: italic;
+        }
+        .letter-badge-special {
+          font-size: 0.72rem;
+          font-weight: 700;
+          background: rgba(245, 158, 11, 0.15);
+          color: var(--primary-hover);
+          border: 1px solid rgba(245, 158, 11, 0.3);
+          padding: 2px 8px;
+          border-radius: 999px;
+          letter-spacing: 0.02em;
+        }
+        .letter-phonetic {
+          background: #111614;
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
+          padding: 0.55rem 0.75rem;
+          display: flex;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+        .letter-phonetic .flag-tag {
+          font-size: 0.85rem;
+          line-height: 1.2;
+          flex-shrink: 0;
+        }
+        .letter-phonetic .phonetic-desc {
+          font-size: 0.82rem;
+          color: var(--text-secondary);
+          line-height: 1.35;
+        }
+        .letter-phonetic .phonetic-desc b {
+          color: var(--text-primary);
         }
         
         /* Reference tables */
         .reference-table-wrapper {
           background-color: var(--bg-card);
           border: 1px solid var(--border-color);
-          border-radius: 16px;
+          border-radius: var(--card-radius, 14px);
           overflow-x: auto;
           box-shadow: var(--shadow-premium);
-          margin-bottom: 1.5rem;
+          margin-bottom: 1.75rem;
         }
         .reference-table {
           width: 100%;
@@ -104,14 +165,14 @@ export const ReferenceView = {
         .reference-table th {
           background-color: rgba(255,255,255,0.02);
           border-bottom: 2px solid var(--border-color);
-          padding: 8px 12px;
-          color: white;
+          padding: 10px 14px;
+          color: var(--text-primary);
           font-weight: 600;
           font-size: 0.88rem;
         }
         .reference-table td {
           border-bottom: 1px solid var(--border-color);
-          padding: 8px 12px;
+          padding: 10px 14px;
           color: var(--text-secondary);
           vertical-align: middle;
           font-size: 0.9rem;
@@ -120,36 +181,38 @@ export const ReferenceView = {
           border-bottom: none;
         }
         .reference-table code {
-          background-color: rgba(255, 255, 255, 0.05);
+          background-color: rgba(0, 0, 0, 0.25);
           color: var(--primary-hover);
           padding: 3px 6px;
-          border-radius: 4px;
+          border-radius: 6px;
           font-family: var(--font-mono);
           font-weight: 700;
           font-size: 0.9rem;
+          border: 1px solid var(--border-color);
         }
 
         .clickable-word {
           cursor: pointer;
-          border-bottom: 1.5px dashed rgba(139, 92, 246, 0.6);
+          border-bottom: 1.5px dashed rgba(245, 158, 11, 0.7);
           display: inline-block;
           transition: var(--transition-fast);
           padding: 0 2px;
+          color: var(--primary-hover);
         }
         .clickable-word:hover, .clickable-word:active {
-          color: var(--primary-hover);
-          background-color: rgba(139, 92, 246, 0.15);
-          border-radius: 3px;
+          color: #ffffff;
+          background-color: rgba(245, 158, 11, 0.2);
+          border-radius: 4px;
         }
       </style>
 
       <div class="view reference-view">
         <h1 class="view-title">Žinynas (Guia de Referência)</h1>
-        <p class="view-subtitle">Guia rápido de fonética, declinações de substantivos e regras verbais do lituano A1/A2.</p>
+        <p class="view-subtitle">Guia prático de fonética lituana com pronúncia figurada para brasileiros, declinações e verbos essenciais para a Categoria I.</p>
         
         <div class="reference-subnav">
-          <button class="ref-tab-btn ${this.activeSubTab === 'alphabet' ? 'active' : ''}" data-ref-tab="alphabet">Abėcėlė (Alfabeto)</button>
-          <button class="ref-tab-btn ${this.activeSubTab === 'declensions' ? 'active' : ''}" data-ref-tab="declensions">Declinações</button>
+          <button class="ref-tab-btn ${this.activeSubTab === 'alphabet' ? 'active' : ''}" data-ref-tab="alphabet">Abėcėlė (Alfabeto e Fonética)</button>
+          <button class="ref-tab-btn ${this.activeSubTab === 'declensions' ? 'active' : ''}" data-ref-tab="declensions">Declinações de Substantivos</button>
           <button class="ref-tab-btn ${this.activeSubTab === 'verbs' ? 'active' : ''}" data-ref-tab="verbs">Verbos no Presente</button>
         </div>
 
@@ -194,15 +257,29 @@ export const ReferenceView = {
 
   renderAlphabetTab() {
     return `
-      <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;">
-        Tabela oficial de letras e nomes fonéticos do alfabeto lituano:
-      </p>
+      <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+        <h4 style="color: var(--primary-hover); font-size: 0.95rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
+          <span>💡</span> <b>Guia Fonético para Brasileiros</b>
+        </h4>
+        <p style="color: var(--text-secondary); font-size: 0.88rem; margin: 0; line-height: 1.45;">
+          O lituano possui 32 letras. As letras com cauda (<b style="color: var(--text-primary);">nosinė: ą, ę, į, ų</b>) e traço (<b style="color: var(--text-primary);">ū, y</b>) indicam vogais longas sustentadas (sem som nasal de 'n'). Toque em qualquer card para ver a equivalência sonora em português.
+        </p>
+      </div>
 
       <div class="alphabet-grid">
         ${this.alphabet.map(item => `
-          <div class="alphabet-card">
-            <span class="letter-glyph">${item.letter}</span>
-            <span class="letter-name">${item.name}</span>
+          <div class="alphabet-card ${item.isSpecial ? 'special-letter' : ''}">
+            <div class="alphabet-card-header">
+              <div class="letter-glyph-box">
+                <span class="letter-glyph">${item.letter}</span>
+                <span class="letter-name">(${item.name})</span>
+              </div>
+              ${item.isSpecial ? `<span class="letter-badge-special">${item.badge || 'Especial'}</span>` : ''}
+            </div>
+            <div class="letter-phonetic">
+              <span class="flag-tag">🇧🇷</span>
+              <span class="phonetic-desc">${item.phonetic}</span>
+            </div>
           </div>
         `).join('')}
       </div>
@@ -215,7 +292,7 @@ export const ReferenceView = {
         Terminações essenciais de substantivos para o nível A1/A2 da Categoria I:
       </p>
 
-      <h3 style="font-family: var(--font-heading); color: white; margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
+      <h3 style="font-family: var(--font-heading); color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
         Singular (Vienaskaita)
       </h3>
       <div class="reference-table-wrapper">
@@ -241,7 +318,7 @@ export const ReferenceView = {
         </table>
       </div>
 
-      <h3 style="font-family: var(--font-heading); color: white; margin-top: 2rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
+      <h3 style="font-family: var(--font-heading); color: var(--text-primary); margin-top: 2rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
         Plural (Daugiskaita)
       </h3>
       <div class="reference-table-wrapper">
@@ -273,7 +350,7 @@ export const ReferenceView = {
         Conjugação no presente dos 3 verbos estruturais da Categoria I. Toque em qualquer forma conjugada para abrir a análise:
       </p>
 
-      <h3 style="font-family: var(--font-heading); color: white; margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
+      <h3 style="font-family: var(--font-heading); color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
         Verbo BŪTI (Ser / Estar) • Irregular
       </h3>
       <div class="reference-table-wrapper">
@@ -296,7 +373,7 @@ export const ReferenceView = {
         </table>
       </div>
 
-      <h3 style="font-family: var(--font-heading); color: white; margin-top: 2rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
+      <h3 style="font-family: var(--font-heading); color: var(--text-primary); margin-top: 2rem; margin-bottom: 0.75rem; font-size: 1.25rem;">
         Verbos Regulares: 1ª Conjugação (-a)
       </h3>
       <div class="reference-table-wrapper">
@@ -369,7 +446,7 @@ export const ReferenceView = {
         
         if (caseEl) {
           const isNominative = result.case.includes("Nominativo") || result.case.includes("Infinitivo");
-          const badgeColor = isNominative ? "rgba(139, 92, 246, 0.2)" : "rgba(16, 185, 129, 0.2)";
+          const badgeColor = isNominative ? "rgba(245, 158, 11, 0.18)" : "rgba(16, 185, 129, 0.18)";
           const textColor = isNominative ? "var(--primary-hover)" : "var(--success)";
           
           caseEl.textContent = result.case;

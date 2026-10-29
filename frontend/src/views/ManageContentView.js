@@ -295,7 +295,7 @@ export const ManageContentView = {
         .clickable-word:hover {
           color: var(--primary-hover);
           border-bottom-color: var(--primary-hover);
-          background-color: rgba(139, 92, 246, 0.08);
+          background-color: rgba(245, 158, 11, 0.1);
           border-radius: 3px;
         }
         .morph-tooltip {
@@ -575,7 +575,7 @@ export const ManageContentView = {
         
         document.getElementById('tooltip-title').textContent = word;
         document.getElementById('tooltip-lemma').textContent = word;
-        document.getElementById('tooltip-case').innerHTML = `<span class="tooltip-badge" style="background-color: rgba(139, 92, 246, 0.2); color: var(--primary-hover);">Infinitivo</span>`;
+        document.getElementById('tooltip-case').innerHTML = `<span class="tooltip-badge" style="background-color: rgba(245, 158, 11, 0.18); color: var(--primary-hover);">Infinitivo</span>`;
         document.getElementById('tooltip-type').textContent = type;
         document.getElementById('tooltip-translation').textContent = translation;
       });

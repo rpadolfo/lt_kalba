@@ -22,7 +22,7 @@ export const LessonsView = {
 
         <div class="lessons-grid horizontal-scroll" style="gap: 1.5rem;">
           ${LESSONS.map(lesson => `
-            <div class="stat-card" style="--gradient: linear-gradient(to right, #8b5cf6, #ec4899); justify-content: space-between; min-height: 250px;">
+            <div class="stat-card" style="--gradient: linear-gradient(to right, var(--primary), var(--secondary)); justify-content: space-between; min-height: 250px;">
               <div>
                 <span class="module-badge" style="margin-bottom: 0.75rem;">${lesson.badge}</span>
                 <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem; margin-top: 0.25rem;">

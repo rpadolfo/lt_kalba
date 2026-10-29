@@ -47,7 +47,7 @@ export const LESSONS = [
       <p>Em lituano, todos os substantivos são masculinos ou femininos. O gênero é facilmente identificado pela terminação nominativa:</p>
       
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
-        <div style="background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.2); padding: 1rem; border-radius: 8px;">
+        <div style="background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.25); padding: 1rem; border-radius: 8px;">
           <h4 style="color: var(--primary-hover); margin-bottom: 0.5rem;">👨 Masculino</h4>
           <p>Terminam em vogal + <b>s</b>:</p>
           <ul style="padding-left: 1.25rem; font-size: 0.9rem;">

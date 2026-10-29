@@ -78,7 +78,7 @@ export const VocabularyView = {
               
               <!-- Back Side -->
               <div class="card-back">
-                <span class="word-type" style="border-color: rgba(139, 92, 246, 0.3); color: var(--primary-hover);">${currentWord.type}</span>
+                <span class="word-type" style="border-color: rgba(245, 158, 11, 0.3); color: var(--primary-hover);">${currentWord.type}</span>
                 <h2 class="word-translation">${currentWord.translation}</h2>
                 
                 ${currentWord.example ? `
