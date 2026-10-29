@@ -1,4 +1,5 @@
 // Mock Data Layer with localStorage persistence for LT Kalba
+import { dbService } from '../services/db.js';
 
 const INITIAL_VOCABULARY = [
   {
@@ -604,7 +605,7 @@ export const db = {
 
   // User Progress API
   getProgress() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS.PROGRESS)) || {};
+    return dbService.getProgress();
   },
 
   saveProgress(progress) {
@@ -612,10 +613,8 @@ export const db = {
   },
 
   addXP(amount) {
-    const progress = this.getProgress();
-    progress.xp = (progress.xp || 0) + amount;
-    this.saveProgress(progress);
-    return progress;
+    dbService.addXp(amount);
+    return dbService.getProgress();
   },
 
   // Spaced Repetition SRS Algorithm Logic
@@ -650,9 +649,8 @@ export const db = {
     this.addXP(xpGained);
 
     const masteredCount = vocab.filter(w => w.srsStage >= 4).length;
-    const progress = this.getProgress();
+    const progress = dbService.getProgress();
     progress.wordsMastered = masteredCount;
-    this.saveProgress(progress);
 
     return {
       word,

@@ -1,6 +1,7 @@
 // Active Learning Hub (Pratimai) - Module 1 Curriculum
 // Replacing legacy flashcards with 3 tactile active mechanics
 import { db } from '../data/mockData.js';
+import { dbService } from '../services/db.js';
 import { 
   GENDER_SORTING_EXERCISES, 
   CASE_SNAPPING_EXERCISES, 
@@ -609,9 +610,9 @@ export const ExercisesView = {
           this.genderIsCorrect = (choice === current.correctGender);
 
           if (this.genderIsCorrect) {
-            db.addXP(15);
+            dbService.recordExerciseScore('gender-sorting', 1, 1);
           } else {
-            db.addXP(5);
+            dbService.recordExerciseScore('gender-sorting', 0, 1);
           }
           forceRenderCallback();
         });
@@ -642,9 +643,9 @@ export const ExercisesView = {
           this.caseIsCorrect = (opt === current.correctAnswer);
 
           if (this.caseIsCorrect) {
-            db.addXP(20);
+            dbService.recordExerciseScore('case-snapping', 1, 1);
           } else {
-            db.addXP(5);
+            dbService.recordExerciseScore('case-snapping', 0, 1);
           }
           forceRenderCallback();
         });
@@ -705,9 +706,9 @@ export const ExercisesView = {
           this.builderIsCorrect = (this.selectedTokens.join(' ') === current.correctOrder.join(' '));
 
           if (this.builderIsCorrect) {
-            db.addXP(25);
+            dbService.recordExerciseScore('sentence-builder', 1, 1);
           } else {
-            db.addXP(5);
+            dbService.recordExerciseScore('sentence-builder', 0, 1);
           }
           forceRenderCallback();
         });

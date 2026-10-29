@@ -3,6 +3,7 @@ import { DIALOGUES_DATA } from '../data/dialoguesData.js';
 import { SITUATIONAL_DIALOGUES } from '../data/module1Data.js';
 import { morphologyService } from '../services/morphologyService.js';
 import { db } from '../data/mockData.js';
+import { dbService } from '../services/db.js';
 
 export const DialoguesView = {
   activeDialogueId: null,
@@ -461,7 +462,7 @@ export const DialoguesView = {
 
           this.roleplayFeedback = null;
           this.roleplayStep += 1;
-          db.addXP(15);
+          dbService.recordExerciseScore('roleplay', 1, 1);
           forceRenderCallback();
         } else {
           this.roleplayFeedback = choice.feedback;

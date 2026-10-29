@@ -1,12 +1,20 @@
 import { db } from '../data/mockData.js';
+import { dbService } from '../services/db.js';
+import { MODULE_1_LESSONS } from '../data/module1Data.js';
 
 export const DashboardView = {
   activeWeekAccordion: 1, // Track which week is expanded
   activeTab: 'daily-journey', // 'daily-journey', 'proficiency', 'schedule'
 
   render() {
-    const progress = db.getProgress();
+    const progress = dbService.getProgress();
     const vocab = db.getVocabulary();
+    const dailyMissions = dbService.getDailyMissions();
+    const lessonsProgress = dbService.getLessonsProgress();
+    const completedLessonsCount = lessonsProgress.filter(p => p.completed).length;
+    const m1 = dailyMissions.find(m => m.id === 'mission-1') || { completed: false };
+    const m2 = dailyMissions.find(m => m.id === 'mission-2') || { completed: false };
+    const m3 = dailyMissions.find(m => m.id === 'mission-3') || { completed: false };
     
     // Dynamic greeting based on current local time
     const hour = new Date().getHours();
@@ -519,7 +527,7 @@ export const DashboardView = {
           <!-- Central Hero Card: 1-Touch Action to Continue Learning -->
           <div class="hero-study-card">
             <div class="hero-info-side">
-              <span class="hero-badge-tag">Módulo 1 • Iniciar Trilha</span>
+              <span class="hero-badge-tag">Módulo 1 • ${completedLessonsCount}/${MODULE_1_LESSONS.length} Lições Concluídas</span>
               <h2 class="hero-study-title">Lição 1: Gênero dos Substantivos: A Chave das Terminações</h2>
               <p class="hero-study-desc">
                 Aprenda a reconhecer instantaneamente substantivos masculinos (-as, -is, -ys, -us) e femininos (-a, -ė) essenciais para a Categoria I.
@@ -541,53 +549,68 @@ export const DashboardView = {
 
             <div class="missions-grid">
               <!-- Mission 1: Gender Sorting -->
-              <div class="mission-card">
+              <div class="mission-card" style="${m1.completed ? 'border-color: rgba(16, 185, 129, 0.4);' : ''}">
                 <div class="mission-card-top">
-                  <div class="mission-icon-box">👨/👩</div>
+                  <div class="mission-icon-box" style="${m1.completed ? 'background: rgba(16, 185, 129, 0.2);' : ''}">👨/👩</div>
                   <div class="mission-text-box">
                     <h4>Separação de Gênero M vs F</h4>
                     <p>Classifique substantivos pelas desinências (-as, -is, -a, -ė) na mecânica ativa.</p>
                   </div>
                 </div>
                 <div class="mission-card-footer">
-                  <span class="mission-xp-tag">+15 XP</span>
-                  <button class="btn btn-secondary mission-action-btn" data-target-tab="exercises" data-target-mode="gender-sorting">
-                    Treinar Gênero
-                  </button>
+                  ${m1.completed ? `
+                    <span class="mission-xp-tag" style="background: rgba(16, 185, 129, 0.2); color: var(--secondary-hover); border-color: rgba(16, 185, 129, 0.3);">✓ Concluída (+15 XP)</span>
+                    <button class="btn btn-secondary" disabled style="opacity: 0.6; cursor: default;">Concluída ✓</button>
+                  ` : `
+                    <span class="mission-xp-tag">+15 XP</span>
+                    <button class="btn btn-secondary mission-action-btn" data-target-tab="exercises" data-target-mode="gender-sorting">
+                      Treinar Gênero
+                    </button>
+                  `}
                 </div>
               </div>
 
               <!-- Mission 2: Case Snapping (Kur?) -->
-              <div class="mission-card">
+              <div class="mission-card" style="${m2.completed ? 'border-color: rgba(16, 185, 129, 0.4);' : ''}">
                 <div class="mission-card-top">
-                  <div class="mission-icon-box">📍</div>
+                  <div class="mission-icon-box" style="${m2.completed ? 'background: rgba(16, 185, 129, 0.2);' : ''}">📍</div>
                   <div class="mission-text-box">
                     <h4>Encaixe do Locativo (Kur?)</h4>
                     <p>Encaixe desinências de lugar (-e, -uje, -yje, -oje, -ėje) sem usar preposições.</p>
                   </div>
                 </div>
                 <div class="mission-card-footer">
-                  <span class="mission-xp-tag">+20 XP</span>
-                  <button class="btn btn-secondary mission-action-btn" data-target-tab="exercises" data-target-mode="case-snapping">
-                    Treinar Locativo
-                  </button>
+                  ${m2.completed ? `
+                    <span class="mission-xp-tag" style="background: rgba(16, 185, 129, 0.2); color: var(--secondary-hover); border-color: rgba(16, 185, 129, 0.3);">✓ Concluída (+20 XP)</span>
+                    <button class="btn btn-secondary" disabled style="opacity: 0.6; cursor: default;">Concluída ✓</button>
+                  ` : `
+                    <span class="mission-xp-tag">+20 XP</span>
+                    <button class="btn btn-secondary mission-action-btn" data-target-tab="exercises" data-target-mode="case-snapping">
+                      Treinar Locativo
+                    </button>
+                  `}
                 </div>
               </div>
 
               <!-- Mission 3: Situational Roleplay -->
-              <div class="mission-card">
+              <div class="mission-card" style="${m3.completed ? 'border-color: rgba(16, 185, 129, 0.4);' : ''}">
                 <div class="mission-card-top">
-                  <div class="mission-icon-box">💬</div>
+                  <div class="mission-icon-box" style="${m3.completed ? 'background: rgba(16, 185, 129, 0.2);' : ''}">💬</div>
                   <div class="mission-text-box">
                     <h4>Simulação em Vilnius</h4>
                     <p>Interaja no diálogo guiado com escolhas reais e feedback da prova oral.</p>
                   </div>
                 </div>
                 <div class="mission-card-footer">
-                  <span class="mission-xp-tag">+35 XP</span>
-                  <button class="btn btn-secondary mission-action-btn" data-target-tab="dialogues">
-                    Iniciar Diálogo
-                  </button>
+                  ${m3.completed ? `
+                    <span class="mission-xp-tag" style="background: rgba(16, 185, 129, 0.2); color: var(--secondary-hover); border-color: rgba(16, 185, 129, 0.3);">✓ Concluída (+35 XP)</span>
+                    <button class="btn btn-secondary" disabled style="opacity: 0.6; cursor: default;">Concluída ✓</button>
+                  ` : `
+                    <span class="mission-xp-tag">+35 XP</span>
+                    <button class="btn btn-secondary mission-action-btn" data-target-tab="dialogues">
+                      Iniciar Diálogo
+                    </button>
+                  `}
                 </div>
               </div>
             </div>
@@ -745,6 +768,40 @@ export const DashboardView = {
           </div>
         </div>
 
+        <!-- Section: Armazenamento Local-First & Backup JSON (OS-007) -->
+        <div class="local-first-backup-card" style="margin-top: 2.5rem; background: #18201B; border: 1px solid var(--border-color); border-radius: var(--card-radius, 14px); padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 0.85rem;">
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;">
+                💾
+              </div>
+              <div>
+                <h4 style="margin: 0; font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; color: var(--text-primary);">
+                  Persistência Local-First (IndexedDB) & Backup
+                </h4>
+                <p style="margin: 0.15rem 0 0 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4;">
+                  Seus dados, ofensiva e progresso são gravados localmente sem depender de servidor remoto.
+                </p>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+              <button class="btn btn-secondary" id="btn-export-backup" style="font-size: 0.85rem; padding: 8px 16px; display: flex; align-items: center; gap: 0.4rem;">
+                <span>📥</span> Exportar Progresso (.json)
+              </button>
+
+              <label class="btn btn-secondary" for="input-restore-backup" style="font-size: 0.85rem; padding: 8px 16px; margin: 0; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+                <span>📤</span> Restaurar Backup (.json)
+                <input type="file" id="input-restore-backup" accept=".json,application/json" style="display: none;" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Toast / Status message -->
+          <div id="backup-toast-feedback" style="display: none; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;"></div>
+        </div>
+
       </div>
     `;
   },
@@ -806,5 +863,75 @@ export const DashboardView = {
         box.innerHTML = box.classList.contains('checked') ? '✓' : '';
       });
     });
+
+    // Backup & Restore Actions (OS-007)
+    const exportBtn = document.getElementById('btn-export-backup');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', async () => {
+        try {
+          exportBtn.disabled = true;
+          exportBtn.innerHTML = '<span>⏳</span> Exportando...';
+          await dbService.exportBackup();
+          this.showBackupToast('✅ Backup exportado com sucesso (.json baixado)!', 'success');
+        } catch (err) {
+          this.showBackupToast('❌ Erro ao exportar backup: ' + err.message, 'error');
+        } finally {
+          exportBtn.disabled = false;
+          exportBtn.innerHTML = '<span>📥</span> Exportar Progresso (.json)';
+        }
+      });
+    }
+
+    const restoreInput = document.getElementById('input-restore-backup');
+    if (restoreInput) {
+      restoreInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        this.showBackupToast('<span>⏳</span> Processando arquivo de backup...', 'info');
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+          try {
+            const content = event.target.result;
+            await dbService.importBackup(content);
+            this.showBackupToast('✅ Backup restaurado com sucesso! Recarregando dados...', 'success');
+            setTimeout(() => {
+              forceRenderCallback();
+            }, 500);
+          } catch (err) {
+            this.showBackupToast('❌ Falha ao restaurar backup: ' + err.message, 'error');
+          }
+        };
+        reader.onerror = () => {
+          this.showBackupToast('❌ Erro na leitura do arquivo local.', 'error');
+        };
+        reader.readAsText(file);
+        restoreInput.value = '';
+      });
+    }
+  },
+
+  showBackupToast(msg, type = 'info') {
+    const toast = document.getElementById('backup-toast-feedback');
+    if (!toast) return;
+    toast.style.display = 'block';
+    if (type === 'success') {
+      toast.style.background = 'rgba(16, 185, 129, 0.15)';
+      toast.style.color = 'var(--secondary-hover)';
+      toast.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+    } else if (type === 'error') {
+      toast.style.background = 'rgba(239, 68, 68, 0.15)';
+      toast.style.color = '#EF4444';
+      toast.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+    } else {
+      toast.style.background = 'rgba(245, 158, 11, 0.15)';
+      toast.style.color = 'var(--primary-hover)';
+      toast.style.border = '1px solid rgba(245, 158, 11, 0.4)';
+    }
+    toast.innerHTML = msg;
+    setTimeout(() => {
+      const el = document.getElementById('backup-toast-feedback');
+      if (el) el.style.display = 'none';
+    }, 4500);
   }
 };

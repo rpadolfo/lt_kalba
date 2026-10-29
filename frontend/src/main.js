@@ -1,5 +1,6 @@
 import './style.css';
 import { db } from './data/mockData.js';
+import { dbService } from './services/db.js';
 import { DashboardView } from './views/DashboardView.js';
 import { LessonsView } from './views/LessonsView.js';
 import { DialoguesView } from './views/DialoguesView.js';
@@ -24,7 +25,7 @@ const VIEWS = {
 
 function renderLayout() {
   const appContainer = document.querySelector('#app');
-  const progress = db.getProgress();
+  const progress = dbService.getProgress();
 
   appContainer.innerHTML = `
     <!-- Top Mobile Header (visible only on <= 768px) -->
@@ -214,6 +215,8 @@ function forceRender() {
 }
 
 // Global App Initialization
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await dbService.init();
+  await dbService.updateStreak();
   renderLayout();
 });

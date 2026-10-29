@@ -1,4 +1,5 @@
 import { MODULE_1_LESSONS, MODULE_1_METADATA } from '../data/module1Data.js';
+import { dbService } from '../services/db.js';
 
 export const LessonsView = {
   activeLessonId: null,
@@ -15,6 +16,9 @@ export const LessonsView = {
   },
 
   renderLessonsList() {
+    const completedCount = MODULE_1_LESSONS.filter(l => dbService.isLessonCompleted(l.id)).length;
+    const progressPct = Math.round((completedCount / MODULE_1_LESSONS.length) * 100);
+
     return `
       <style>
         .lessons-header-box {
@@ -155,6 +159,12 @@ export const LessonsView = {
           <div class="module-banner-info">
             <h3>${MODULE_1_METADATA.title}</h3>
             <p>${MODULE_1_METADATA.subtitle}</p>
+            <div style="margin-top: 0.65rem; display: flex; align-items: center; gap: 0.75rem;">
+              <div style="background: rgba(255,255,255,0.08); height: 6px; width: 140px; border-radius: 999px; overflow: hidden;">
+                <div style="background: var(--primary); height: 100%; width: ${progressPct}%; border-radius: 999px; transition: width 0.3s ease;"></div>
+              </div>
+              <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">${completedCount}/${MODULE_1_LESSONS.length} Concluídas (${progressPct}%)</span>
+            </div>
           </div>
           <span class="module-target-badge">${MODULE_1_METADATA.targetExam.split('-')[0].trim()}</span>
         </div>
@@ -162,13 +172,19 @@ export const LessonsView = {
         <!-- 5 Lessons List -->
         <div class="lessons-list-grid">
           ${MODULE_1_LESSONS.map(lesson => {
+            const isCompleted = dbService.isLessonCompleted(lesson.id);
             const practiceMode = lesson.order === 1 ? 'gender-sorting' : (lesson.order === 3 || lesson.order === 4) ? 'case-snapping' : 'sentence-builder';
             return `
-              <div class="lesson-card-item">
+              <div class="lesson-card-item" style="${isCompleted ? 'border-color: rgba(16, 185, 129, 0.4);' : ''}">
                 <div class="lesson-card-left">
-                  <div class="lesson-number-circle">${lesson.order}</div>
+                  <div class="lesson-number-circle" style="${isCompleted ? 'border-color: var(--success); color: var(--success);' : ''}">
+                    ${isCompleted ? '✓' : lesson.order}
+                  </div>
                   <div class="lesson-card-info">
-                    <span class="lesson-badge-tag">${lesson.badge}</span>
+                    <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem;">
+                      <span class="lesson-badge-tag">${lesson.badge}</span>
+                      ${isCompleted ? '<span style="font-size: 0.72rem; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: var(--secondary-hover); padding: 2px 7px; border-radius: 5px; border: 1px solid rgba(16, 185, 129, 0.3);">✓ Concluída</span>' : ''}
+                    </div>
                     <h2 class="lesson-item-title">${lesson.title}</h2>
                     <div class="lesson-item-lt-title">${lesson.lithuanianTitle}</div>
                     <p class="lesson-item-desc">${lesson.description}</p>
@@ -192,6 +208,7 @@ export const LessonsView = {
   },
 
   renderLessonReader(lesson) {
+    const isCompleted = dbService.isLessonCompleted(lesson.id);
     const practiceMode = lesson.order === 1 ? 'gender-sorting' : (lesson.order === 3 || lesson.order === 4) ? 'case-snapping' : 'sentence-builder';
     const theoryHtml = this.buildTheoryHtml(lesson);
 
@@ -373,9 +390,14 @@ export const LessonsView = {
                 Treine com mecânicas interativas sem precisar memorizar listas passivas.
               </p>
             </div>
-            <button class="btn btn-primary start-lesson-practice-btn" data-practice-mode="${practiceMode}" style="padding: 0.9rem 1.75rem;">
-              Praticar esta Lição Agora 🚀
-            </button>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+              <button class="btn btn-secondary complete-lesson-toggle-btn" data-lesson-id="${lesson.id}" style="${isCompleted ? 'border-color: var(--success); color: var(--success); font-weight: 700;' : ''}">
+                ${isCompleted ? 'Lição Concluída ✓' : 'Concluir Teoria (+50 XP) ✓'}
+              </button>
+              <button class="btn btn-primary start-lesson-practice-btn" data-lesson-id="${lesson.id}" data-practice-mode="${practiceMode}" style="padding: 0.9rem 1.75rem;">
+                Praticar esta Lição Agora 🚀
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -567,10 +589,23 @@ export const LessonsView = {
       });
     });
 
-    // 3. Practice lesson triggers
+    // 3. Complete lesson toggle
+    document.querySelectorAll('.complete-lesson-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const lessonId = btn.dataset.lessonId;
+        await dbService.saveLessonCompletion(lessonId);
+        forceRenderCallback();
+      });
+    });
+
+    // 4. Practice lesson triggers
     document.querySelectorAll('.start-lesson-practice-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const mode = btn.dataset.practiceMode || 'gender-sorting';
+        const lessonId = btn.dataset.lessonId;
+        if (lessonId) {
+          await dbService.saveLessonCompletion(lessonId);
+        }
         this.activeLessonId = null;
         navigateCallback('exercises', { mode: mode });
       });
