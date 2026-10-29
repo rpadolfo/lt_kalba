@@ -139,10 +139,18 @@ export const DICTIONARY = {
   "labas": { translation: "olá / oi", type: "expressão" },
   "ačiū": { translation: "obrigado(a)", type: "expressão" },
   "prašom": { translation: "por favor / de nada / aqui está", type: "expressão" },
-  "prašau": { translation: "por favor / eu peço", type: "expressão" },
+  "prašau": { translation: "por favor / de nada", type: "expressão", lemma: "prašau" },
   "atsiprašau": { translation: "desculpe / com licença", type: "expressão" },
   "taip": { translation: "sim", type: "advérbio" },
-  "ne": { translation: "não", type: "advérbio" },
+  "ne": { translation: "não", type: "advérbio" },
+  "ar": { translation: "partícula interrogativa (sim/não)", type: "partícula", lemma: "ar" },
+  "lietuviškai": { translation: "em lituano", type: "advérbio", lemma: "lietuviškai" },
+  "angliškai": { translation: "em inglês", type: "advérbio", lemma: "angliškai" },
+  "puiku": { translation: "ótimo / excelente", type: "adjetivo/interjeição", lemma: "puikus" },
+  "skanaus": { translation: "bom apetite!", type: "saudação", lemma: "skanus" },
+  "šiandien": { translation: "hoje", type: "advérbio", lemma: "šiandien" },
+  "kartu": { translation: "juntos", type: "advérbio", lemma: "kartu" },
+  "tikrai": { translation: "realmente / certamente", type: "advérbio", lemma: "tikrai" },
   "labai": { translation: "muito", type: "advérbio" },
   "daug": { translation: "muito / bastante", type: "advérbio" },
   "kur": { translation: "onde", type: "advérbio interrogativo" },
@@ -533,7 +541,48 @@ export function analyzeWord(rawWord) {
     }
   }
 
-  // 5. Fallback for unregistered words
+  // 5. Generic 'ne-' prefix stripping (negation of verbs, adverbs, and adjectives)
+  if (cleaned.startsWith("ne") && cleaned.length > 3) {
+    const rootWord = cleaned.slice(2);
+    const rootAnalysis = analyzeWord(rootWord);
+    if (
+      rootAnalysis &&
+      rootAnalysis.translation !== "Tradução não cadastrada" &&
+      rootAnalysis.case !== "Forma desconhecida"
+    ) {
+      let negCase = rootAnalysis.case;
+      if (negCase.startsWith("Presente")) {
+        negCase = negCase.replace("Presente", "Presente Negativo");
+      } else {
+        negCase = `${negCase} (Negação)`;
+      }
+
+      let negTranslation = rootAnalysis.translation;
+      if (rootAnalysis.type === "verbo" && rootAnalysis.case.includes("(")) {
+        const innerParen = rootAnalysis.case.match(/\(((?:eu|tu|ele\/ela\/eles\/elas|nós|vocês)\s+[^)]+)\)/);
+        if (innerParen && innerParen[1]) {
+          const parts = innerParen[1].split(/\s+/);
+          parts.shift();
+          negTranslation = `não ${parts.join(" ")}`;
+        } else {
+          negTranslation = `não ${negTranslation}`;
+        }
+      } else if (!negTranslation.toLowerCase().startsWith("não ")) {
+        negTranslation = `não ${negTranslation}`;
+      }
+
+      return {
+        word: rawWord,
+        lemma: rootAnalysis.lemma,
+        case: negCase,
+        gender: rootAnalysis.gender,
+        translation: negTranslation,
+        type: rootAnalysis.type
+      };
+    }
+  }
+
+  // 6. Fallback for unregistered words
   return {
     word: rawWord,
     lemma: rawWord,
